@@ -3,7 +3,7 @@
 
 import Image from "next/image";
 import * as React from "react";
-import { Car, Sparkles, Star, Users, Award, Flame, Truck, MapPin } from "lucide-react";
+import { Car, Star, Users, Award, Flame, Truck, Bot } from "lucide-react";
 import { type Vehicle, vehicles } from "@/lib/data";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -44,7 +44,7 @@ function Footer() {
               <h4 className="font-semibold text-foreground mb-4">บริการ</h4>
               <ul className="space-y-2 text-sm">
                 <li><a href="#fleet" className="hover:text-primary transition-colors">รถของเรา</a></li>
-                <li><a href="#recommend" className="hover:text-primary transition-colors">แนะนำโดย AI</a></li>
+                <li><a href="#ai-chat" className="hover:text-primary transition-colors">AI ช่วยเหลือ</a></li>
                 <li><a href="#" className="hover:text-primary transition-colors">เช่ารายวัน</a></li>
                 <li><a href="#" className="hover:text-primary transition-colors">เช่ารายเดือน</a></li>
               </ul>
@@ -129,23 +129,23 @@ export default function Home() {
     <div className="flex flex-col min-h-dvh bg-background">
       <Header />
       <main className="flex-1">
-        <section id="recommend" className="relative py-20 md:py-32">
+        <section id="ai-chat" className="relative py-20 md:py-32">
            <div className="absolute inset-0">
             <Image
-              src="https://placehold.co/1920x1080.png"
-              alt="Beautiful landscape in Thailand"
+              src="https://images.unsplash.com/photo-1504215680853-026ed2a45def?q=80&w=2070&auto=format&fit=crop"
+              alt="Car driving on a beautiful road"
               fill
               className="object-cover opacity-20"
-              data-ai-hint="thailand landscape"
+              data-ai-hint="car road"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent" />
           </div>
           <div className="container mx-auto px-4 relative z-10">
             <div className="text-center mb-12">
-              <Sparkles className="h-10 w-10 mx-auto text-primary mb-4" />
-              <h2 className="text-3xl md:text-4xl font-bold font-headline">ให้ AI ของเราค้นหารถที่ใช่สำหรับคุณ</h2>
+              <Bot className="h-10 w-10 mx-auto text-primary mb-4" />
+              <h2 className="text-3xl md:text-4xl font-bold font-headline">ให้ AI ช่วยเหลือคุณ</h2>
               <p className="text-lg text-muted-foreground mt-2 max-w-2xl mx-auto">
-                ตอบคำถามง่ายๆ ไม่กี่ข้อ แล้ว AI ของเราจะแนะนำรถที่เหมาะกับการเดินทางของคุณ
+                มีคำถามเกี่ยวกับการเช่ารถ? "รุ่งโรจน์ AI" พร้อมให้ความช่วยเหลือ 24 ชั่วโมง
               </p>
             </div>
             <RecommendationForm />

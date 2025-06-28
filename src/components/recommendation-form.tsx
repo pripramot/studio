@@ -1,154 +1,130 @@
 "use client";
 
 import * as React from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { Loader2, Car, ThumbsUp } from "lucide-react";
-
+import { SendHorizonal, Bot, User, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { getRecommendation } from "@/app/actions";
-import type { RecommendSuitableCarOutput } from "@/ai/flows/recommend-suitable-car";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { getAnswer } from "@/app/actions";
 import { useToast } from "@/hooks/use-toast";
-import { Skeleton } from "@/components/ui/skeleton";
+import { cn } from "@/lib/utils";
 
-const purposeItems = [
-  { value: 'ประหยัดน้ำมัน', label: 'ประหยัดน้ำมัน' },
-  { value: 'เดินทางกับครอบครัว (5-7 ที่นั่ง)', label: 'เดินทางกับครอบครัว (5-7 ที่นั่ง)' },
-  { value: 'เหมาะกับการผจญภัย/ออฟโรด', label: 'ผจญภัย / ออฟโรด' },
-  { value: 'ขับขี่ในเมืองคล่องตัว', label: 'ขับขี่ในเมือง' },
-  { value: 'รถหรู / ติดต่อธุรกิจ', label: 'ติดต่อธุรกิจ / รถหรู' },
-  { value: 'สำหรับบรรทุกของ', label: 'สำหรับบรรทุกของ' },
-];
-
-const formSchema = z.object({
-  purpose: z.string({
-    required_error: "กรุณาเลือกวัตถุประสงค์การใช้งาน",
-  }),
-});
-
-type FormValues = z.infer<typeof formSchema>;
+type Message = {
+  role: 'user' | 'model';
+  content: string;
+};
 
 export function RecommendationForm() {
+  const [messages, setMessages] = React.useState<Message[]>([]);
+  const [input, setInput] = React.useState("");
   const [isPending, startTransition] = React.useTransition();
-  const [result, setResult] = React.useState<RecommendSuitableCarOutput | null>(null);
   const { toast } = useToast();
+  const scrollAreaRef = React.useRef<HTMLDivElement>(null);
 
-  const form = useForm<FormValues>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      purpose: undefined,
-    },
-  });
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!input.trim() || isPending) return;
 
-  function onSubmit(values: FormValues) {
-    setResult(null);
+    const userMessage: Message = { role: 'user', content: input };
+    setMessages(prev => [...prev, userMessage]);
+    
     startTransition(async () => {
-      const { data, error } = await getRecommendation({
-        purpose: values.purpose,
+      const currentInput = input;
+      setInput(""); // Clear input immediately for better UX
+      
+      const { data, error } = await getAnswer({
+        question: currentInput,
+        chatHistory: messages,
       });
+      
       if (error) {
         toast({
           title: "เกิดข้อผิดพลาด",
           description: error,
           variant: "destructive",
         });
+        const errorMessage: Message = { role: 'model', content: "ขออภัยค่ะ เกิดข้อผิดพลาดบางอย่าง โปรดลองอีกครั้ง" };
+        setMessages(prev => [...prev, errorMessage]);
         return;
       }
-      setResult(data);
+
+      if (data) {
+        const aiMessage: Message = { role: 'model', content: data.answer };
+        setMessages(prev => [...prev, aiMessage]);
+      }
     });
-  }
+  };
+  
+  React.useEffect(() => {
+    if (scrollAreaRef.current) {
+        const scrollableNode = scrollAreaRef.current.querySelector('[data-radix-scroll-area-viewport]');
+        if (scrollableNode) {
+          scrollableNode.scrollTo({
+            top: scrollableNode.scrollHeight,
+            behavior: 'smooth'
+          });
+        }
+    }
+  }, [messages]);
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start max-w-6xl mx-auto">
-      <Card className="shadow-lg rounded-lg">
-        <CardHeader>
-          <CardTitle className="font-headline text-2xl">ค้นหารถที่ใช่สำหรับคุณ</CardTitle>
-          <CardDescription>เลือกวัตถุประสงค์ของคุณ แล้วให้ AI ช่วยแนะนำ</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              <FormField
-                control={form.control}
-                name="purpose"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>วัตถุประสงค์การใช้งาน</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="เลือกจากรายการ..." />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {purposeItems.map((item) => (
-                          <SelectItem key={item.value} value={item.value}>
-                            {item.label}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
+    <Card className="w-full max-w-2xl mx-auto shadow-2xl rounded-xl border-0">
+      <CardContent className="p-0">
+        <ScrollArea className="h-[450px] w-full p-4 bg-background rounded-t-xl border">
+          <div className="space-y-6" ref={scrollAreaRef}>
+            <div className="flex items-start gap-3">
+              <Avatar className="w-8 h-8 border">
+                <AvatarFallback><Bot size={20} /></AvatarFallback>
+              </Avatar>
+              <div className="rounded-lg px-4 py-2 max-w-[80%] whitespace-pre-wrap bg-muted">
+                สวัสดีค่ะ มีอะไรให้รุ่งโรจน์ AI ช่วยเหลือไหมคะ?
+              </div>
+            </div>
+            {messages.map((message, index) => (
+              <div key={index} className={cn('flex items-start gap-3', message.role === 'user' ? 'justify-end' : 'justify-start')}>
+                {message.role === 'model' && (
+                  <Avatar className="w-8 h-8 border">
+                    <AvatarFallback><Bot size={20} /></AvatarFallback>
+                  </Avatar>
                 )}
-              />
-              <Button type="submit" disabled={isPending} className="w-full">
-                {isPending ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    กำลังสร้างคำแนะนำ...
-                  </>
-                ) : "รับคำแนะนำ"}
-              </Button>
-            </form>
-          </Form>
-        </CardContent>
-      </Card>
-
-      <div className="mt-8 lg:mt-0">
-        <Card className="bg-muted/50 rounded-lg min-h-[300px] flex items-center justify-center p-6">
-          {isPending && <RecommendationSkeleton />}
-          {!isPending && result && (
-            <div className="text-center w-full animate-in fade-in duration-500">
-               <CardHeader>
-                <div className="mx-auto bg-primary/10 text-primary p-3 rounded-full w-fit mb-4">
-                  <ThumbsUp className="h-8 w-8" />
+                <div className={cn('rounded-lg px-4 py-2 max-w-[80%] whitespace-pre-wrap', message.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-muted')}>
+                  {message.content}
                 </div>
-                <CardTitle className="font-headline text-2xl">คำแนะนำของเรา</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="bg-primary text-primary-foreground p-4 rounded-md">
-                  <p className="text-lg font-semibold flex items-center justify-center gap-2">
-                    <Car/>
-                    {result.carRecommendation}
-                  </p>
+                {message.role === 'user' && (
+                  <Avatar className="w-8 h-8 border">
+                    <AvatarFallback><User size={20} /></AvatarFallback>
+                  </Avatar>
+                )}
+              </div>
+            ))}
+            {isPending && (
+              <div className="flex items-start gap-3">
+                <Avatar className="w-8 h-8 border">
+                  <AvatarFallback><Bot size={20} /></AvatarFallback>
+                </Avatar>
+                <div className="rounded-lg px-4 py-2 bg-muted flex items-center">
+                  <Loader2 className="h-5 w-5 animate-spin"/>
                 </div>
-                <p className="text-muted-foreground">{result.suitabilityExplanation}</p>
-              </CardContent>
-            </div>
-          )}
-           {!isPending && !result && (
-            <div className="text-center text-muted-foreground p-8">
-              <p>คำแนะนำรถยนต์ส่วนตัวของคุณจะปรากฏที่นี่</p>
-            </div>
-          )}
-        </Card>
-      </div>
-    </div>
-  );
-}
-
-function RecommendationSkeleton() {
-  return (
-    <div className="flex flex-col items-center justify-center space-y-4 w-full p-4">
-      <Skeleton className="h-16 w-16 rounded-full" />
-      <Skeleton className="h-8 w-48" />
-      <Skeleton className="h-6 w-full" />
-      <Skeleton className="h-6 w-5/6" />
-    </div>
+              </div>
+            )}
+          </div>
+        </ScrollArea>
+        <form onSubmit={handleSubmit} className="p-4 flex items-center gap-2 bg-muted/60 rounded-b-xl border border-t-0">
+          <Input
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder="พิมพ์คำถามของคุณที่นี่..."
+            disabled={isPending}
+            className="flex-1"
+            autoComplete="off"
+          />
+          <Button type="submit" disabled={isPending || !input.trim()} size="icon">
+            <SendHorizonal className="h-5 w-5" />
+          </Button>
+        </form>
+      </CardContent>
+    </Card>
   );
 }
