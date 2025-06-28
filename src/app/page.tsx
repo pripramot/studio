@@ -7,7 +7,6 @@ import { Car, Sparkles, Star, Users, Award, Flame, Truck, MapPin } from "lucide-
 import { type Vehicle, vehicles } from "@/lib/data";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { RecommendationForm } from "@/components/recommendation-form";
 import { LogoIcon } from "@/components/icons";
@@ -146,12 +145,19 @@ export default function Home() {
             <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
             ค้นพบประเทศไทยด้วยยานพาหนะที่สมบูรณ์แบบ จากถนนในเมืองที่พลุกพล่านไปจนถึงชายหาดอันเงียบสงบ เรามีรถสำหรับทุกการผจญภัย
             </p>
-            <div className="max-w-xl mx-auto bg-background/80 backdrop-blur-sm p-4 rounded-lg shadow-lg border">
-              <div className="relative">
-                <Input type="text" placeholder="ค้นหาตามเมือง, สถานที่สำคัญ, หรือปลายทาง..." className="w-full pl-10 h-12 text-base" />
-                <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-              </div>
+          </div>
+        </section>
+        
+        <section id="recommend" className="py-16 md:py-24 bg-background">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-12">
+              <Sparkles className="h-10 w-10 mx-auto text-primary mb-4" />
+              <h2 className="text-3xl md:text-4xl font-bold font-headline">ให้ AI ของเราค้นหารถที่ใช่สำหรับคุณ</h2>
+              <p className="text-lg text-muted-foreground mt-2 max-w-2xl mx-auto">
+                ตอบคำถามง่ายๆ ไม่กี่ข้อ แล้ว AI ของเราจะแนะนำรถที่เหมาะกับการเดินทางของคุณ
+              </p>
             </div>
+            <RecommendationForm />
           </div>
         </section>
 
@@ -206,19 +212,6 @@ export default function Home() {
                 description="เช่ารถเริ่มต้นราคาเพียง 699/วัน รถทุกคันมีประกันภัยชั้น 1 และเจ้าของร้านเป็นผู้ส่งมอบด้วยตนเอง"
               />
             </div>
-          </div>
-        </section>
-
-        <section id="recommend" className="py-16 md:py-24 bg-background">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-12">
-              <Sparkles className="h-10 w-10 mx-auto text-primary mb-4" />
-              <h2 className="text-3xl md:text-4xl font-bold font-headline">ให้ AI ของเราค้นหารถที่ใช่สำหรับคุณ</h2>
-              <p className="text-lg text-muted-foreground mt-2 max-w-2xl mx-auto">
-                ตอบคำถามง่ายๆ ไม่กี่ข้อ แล้ว AI ของเราจะแนะนำรถที่เหมาะกับการเดินทางของคุณ
-              </p>
-            </div>
-            <RecommendationForm />
           </div>
         </section>
 
