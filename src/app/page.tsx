@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Car, Fuel, MapPin, Sparkles, Star, Users } from "lucide-react";
+import { Car, Fuel, MapPin, Sparkles, Star, Users, Award, Flame, Truck } from "lucide-react";
 import { vehicles } from "@/lib/data";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -24,10 +24,42 @@ function Header() {
 
 function Footer() {
   return (
-    <footer className="bg-muted py-8 mt-16">
-      <div className="container mx-auto text-center text-muted-foreground">
-        <p>&copy; {new Date().getFullYear()} Rungroj Carrent. All rights reserved.</p>
-        <p className="text-sm mt-2">Your trusted partner for exploring the wonders of Thailand.</p>
+    <footer className="bg-muted text-muted-foreground mt-16">
+      <div className="container mx-auto py-12 px-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="md:col-span-1">
+            <div className="flex items-center gap-2 mb-4">
+               <LogoIcon className="h-10 w-10" />
+               <h3 className="text-xl font-bold text-foreground font-headline">Rungroj Carrent</h3>
+            </div>
+            <p className="text-sm">
+            Rungroj Carrent in Udon Thani offers self-drive car rentals with free Class 1 insurance. Trust us for a safe drive.
+            </p>
+          </div>
+          <div className="md:col-span-2 grid grid-cols-2 md:grid-cols-3 gap-8">
+            <div>
+              <h4 className="font-semibold text-foreground mb-4">Services</h4>
+              <ul className="space-y-2 text-sm">
+                <li><a href="#fleet" className="hover:text-primary transition-colors">Our Fleet</a></li>
+                <li><a href="#recommend" className="hover:text-primary transition-colors">AI Recommendation</a></li>
+                <li><a href="#" className="hover:text-primary transition-colors">Daily Rentals</a></li>
+                <li><a href="#" className="hover:text-primary transition-colors">Monthly Rentals</a></li>
+              </ul>
+            </div>
+             <div>
+              <h4 className="font-semibold text-foreground mb-4">About</h4>
+              <ul className="space-y-2 text-sm">
+                <li><a href="#" className="hover:text-primary transition-colors">About Us</a></li>
+                <li><a href="#" className="hover:text-primary transition-colors">Contact Us</a></li>
+                <li><a href="#" className="hover:text-primary transition-colors">Terms of Service</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <Separator className="my-8 bg-border/40" />
+        <div className="text-center text-sm">
+          <p>&copy; {new Date().getFullYear()} Rungroj Carrent. All rights reserved.</p>
+        </div>
       </div>
     </footer>
   );
@@ -74,6 +106,19 @@ function VehicleCard({ vehicle }: { vehicle: (typeof vehicles)[0] }) {
   );
 }
 
+function FeatureCard({ icon, title, description }: { icon: React.ReactNode, title: string, description: string }) {
+  return (
+    <Card className="text-center p-6 shadow-md hover:shadow-lg transition-shadow">
+      <div className="mb-4 inline-block p-4 bg-primary/10 text-primary rounded-full">
+        {icon}
+      </div>
+      <h3 className="text-xl font-bold font-headline mb-2">{title}</h3>
+      <p className="text-muted-foreground">{description}</p>
+    </Card>
+  );
+}
+
+
 export default function Home() {
   return (
     <div className="flex flex-col min-h-dvh bg-background">
@@ -104,13 +149,67 @@ export default function Home() {
           </div>
         </section>
 
+        <section className="py-16 md:py-24 bg-background">
+          <div className="container mx-auto px-4">
+            <div className="grid md:grid-cols-2 gap-12 items-center">
+              <div className="rounded-lg overflow-hidden shadow-lg">
+                <Image 
+                  src="https://placehold.co/800x600.png" 
+                  alt="Rungroj Carrent Office" 
+                  width={800} 
+                  height={600}
+                  className="w-full h-full object-cover"
+                  data-ai-hint="car rental office"
+                />
+              </div>
+              <div>
+                <h2 className="text-3xl md:text-4xl font-bold font-headline mb-4">RungRoj Car Rental Udon Thani</h2>
+                <p className="text-lg text-muted-foreground mb-4">
+                  With over 40 vehicles to choose from, Rungroj Karnchamnan Ltd., Part. provides top-tier car rental services at Udon Thani Airport.
+                </p>
+                <p className="text-muted-foreground">
+                  Enjoy free cancellations and self-drive rentals available daily, weekly, or monthly at affordable prices. Your perfect ride is just a click away.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="py-16 md:py-24 bg-muted/50">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-bold font-headline">Why Choose Us?</h2>
+              <p className="text-lg text-muted-foreground mt-2 max-w-2xl mx-auto">
+                We provide a seamless, affordable, and reliable rental experience.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <FeatureCard 
+                icon={<Truck className="h-8 w-8" />}
+                title="Free Car Delivery"
+                description="We offer free delivery within the Udon Thani area, including Nong Prachak Public Park, at no extra charge."
+              />
+              <FeatureCard 
+                icon={<Award className="h-8 w-8" />}
+                title="Excellent Service"
+                description="Be confident in our top-quality vehicles and outstanding service. Start your smooth journey with us."
+              />
+              <FeatureCard 
+                icon={<Flame className="h-8 w-8" />}
+                title="Super Hot Deals"
+                description="Rentals start at just ฿699/day. All cars include Class 1 insurance and are delivered personally by the owner."
+              />
+            </div>
+          </div>
+        </section>
+
         <section id="recommend" className="py-16 md:py-24 bg-background">
           <div className="container mx-auto px-4">
             <div className="text-center mb-12">
               <Sparkles className="h-10 w-10 mx-auto text-primary mb-4" />
-              <h2 className="text-3xl md:text-4xl font-bold font-headline">Don't Know Where to Start?</h2>
+              <h2 className="text-3xl md:text-4xl font-bold font-headline">Let Our AI Find Your Perfect Car</h2>
               <p className="text-lg text-muted-foreground mt-2 max-w-2xl mx-auto">
-              Let our AI guide you to the perfect car for your trip. Just tell us your plans.
+                Answer a few simple questions and our AI will recommend the ideal vehicle for your journey.
               </p>
             </div>
             <RecommendationForm />
