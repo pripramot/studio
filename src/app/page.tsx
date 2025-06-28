@@ -6,14 +6,14 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { RecommendationForm } from "@/components/recommendation-form";
-import { TempleIcon } from "@/components/icons";
+import { LogoIcon } from "@/components/icons";
 
 function Header() {
   return (
     <header className="py-4 px-4 md:px-8 border-b border-border/40 bg-background/95 backdrop-blur-sm sticky top-0 z-40">
       <div className="container mx-auto flex items-center justify-between">
         <a href="#" className="flex items-center gap-2" aria-label="Rungroj Carrent Home">
-          <TempleIcon className="h-8 w-8 text-primary" />
+          <LogoIcon className="h-8 w-8" />
           <h1 className="text-2xl font-bold text-foreground font-headline">Rungroj Carrent</h1>
         </a>
         <Button>Sign In</Button>
