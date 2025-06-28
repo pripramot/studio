@@ -14,9 +14,9 @@ function Header() {
       <div className="container mx-auto flex items-center justify-between">
         <a href="#" className="flex items-center gap-2" aria-label="Rungroj Carrent Home">
           <TempleIcon className="h-8 w-8 text-primary" />
-          <h1 className="text-2xl font-bold text-foreground font-headline">รุ่งโรจน์ รถเช่า</h1>
+          <h1 className="text-2xl font-bold text-foreground font-headline">Rungroj Carrent</h1>
         </a>
-        <Button>ลงชื่อเข้าใช้</Button>
+        <Button>Sign In</Button>
       </div>
     </header>
   );
@@ -26,8 +26,8 @@ function Footer() {
   return (
     <footer className="bg-muted py-8 mt-16">
       <div className="container mx-auto text-center text-muted-foreground">
-        <p>&copy; {new Date().getFullYear()} รุ่งโรจน์ รถเช่า. สงวนลิขสิทธิ์.</p>
-        <p className="text-sm mt-2">พันธมิตรที่เชื่อถือได้ของคุณในการสำรวจความมหัศจรรย์ของประเทศไทย</p>
+        <p>&copy; {new Date().getFullYear()} Rungroj Carrent. All rights reserved.</p>
+        <p className="text-sm mt-2">Your trusted partner for exploring the wonders of Thailand.</p>
       </div>
     </footer>
   );
@@ -52,23 +52,23 @@ function VehicleCard({ vehicle }: { vehicle: (typeof vehicles)[0] }) {
         <CardDescription className="mb-4 text-sm">{vehicle.useCases}</CardDescription>
         <div className="flex-1" />
         <div className="grid grid-cols-2 gap-4 text-sm text-muted-foreground my-4">
-          <div className="flex items-center gap-2"><Users className="h-4 w-4 text-primary" />{vehicle.seats} ที่นั่ง</div>
+          <div className="flex items-center gap-2"><Users className="h-4 w-4 text-primary" />{vehicle.seats} Seats</div>
           <div className="flex items-center gap-2"><Car className="h-4 w-4 text-primary" />{vehicle.type}</div>
         </div>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1">
             <Star className="w-5 h-5 text-accent fill-accent" />
             <span className="font-bold">{vehicle.rating.toFixed(1)}</span>
-            <span className="text-sm text-muted-foreground">({vehicle.reviews} รีวิว)</span>
+            <span className="text-sm text-muted-foreground">({vehicle.reviews} reviews)</span>
           </div>
         </div>
       </CardContent>
       <CardFooter className="bg-muted/50 p-4 flex items-center justify-between">
         <div>
           <span className="text-2xl font-bold">฿{vehicle.price.toLocaleString()}</span>
-          <span className="text-sm text-muted-foreground">/วัน</span>
+          <span className="text-sm text-muted-foreground">/day</span>
         </div>
-        <Button>เช่าเลย</Button>
+        <Button>Rent Now</Button>
       </CardFooter>
     </Card>
   );
@@ -91,13 +91,13 @@ export default function Home() {
             <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent" />
           </div>
           <div className="container mx-auto px-4 relative z-10 text-center">
-            <h2 className="text-4xl md:text-6xl font-bold font-headline mb-4">ทุกการเดินทางของคุณ ให้เราดูแล</h2>
+            <h2 className="text-4xl md:text-6xl font-bold font-headline mb-4">Your Journey, Your Car</h2>
             <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
-            ค้นพบประเทศไทยด้วยยานพาหนะที่สมบูรณ์แบบ จากถนนในเมืองที่พลุกพล่านไปจนถึงชายหาดอันเงียบสงบ เรามีรถสำหรับทุกการผจญภัย
+            Discover Thailand with the perfect vehicle. From bustling city streets to serene beaches, we have a car for every adventure.
             </p>
             <div className="max-w-xl mx-auto bg-background/80 backdrop-blur-sm p-4 rounded-lg shadow-lg border">
               <div className="relative">
-                <Input type="text" placeholder="ค้นหาด้วยเมือง, สถานที่สำคัญ, หรือจุดหมายปลายทาง..." className="w-full pl-10 h-12 text-base" />
+                <Input type="text" placeholder="Search by city, landmark, or destination..." className="w-full pl-10 h-12 text-base" />
                 <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
               </div>
             </div>
@@ -108,9 +108,9 @@ export default function Home() {
           <div className="container mx-auto px-4">
             <div className="text-center mb-12">
               <Sparkles className="h-10 w-10 mx-auto text-primary mb-4" />
-              <h2 className="text-3xl md:text-4xl font-bold font-headline">ไม่รู้จะเริ่มจากตรงไหน?</h2>
+              <h2 className="text-3xl md:text-4xl font-bold font-headline">Don't Know Where to Start?</h2>
               <p className="text-lg text-muted-foreground mt-2 max-w-2xl mx-auto">
-              ให้ AI ของเราแนะนำรถที่สมบูรณ์แบบสำหรับการเดินทางของคุณ เพียงบอกแผนการเดินทางของคุณ
+              Let our AI guide you to the perfect car for your trip. Just tell us your plans.
               </p>
             </div>
             <RecommendationForm />
@@ -122,9 +122,9 @@ export default function Home() {
         <section id="fleet" className="py-16 md:py-24 bg-background">
           <div className="container mx-auto px-4">
             <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold font-headline">รถของเรา</h2>
+              <h2 className="text-3xl md:text-4xl font-bold font-headline">Our Fleet</h2>
               <p className="text-lg text-muted-foreground mt-2 max-w-2xl mx-auto">
-              มีรถให้เลือกมากมาย ตอบโจทย์ทุกความต้องการในประเทศไทย
+              A wide selection of vehicles to meet your needs in Thailand.
               </p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

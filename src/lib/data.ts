@@ -3,7 +3,7 @@ export type Vehicle = {
   image: string;
   dataAiHint: string;
   price: number;
-  type: 'Sedan' | 'Hatchback' | 'SUV' | 'Truck';
+  type: 'Sedan' | 'Hatchback' | 'SUV' | 'Truck' | 'MPV';
   seats: number;
   rating: number;
   reviews: number;
@@ -12,7 +12,7 @@ export type Vehicle = {
 
 export const vehicles: Vehicle[] = [
   {
-    name: 'Honda City',
+    name: 'Honda City Turbo',
     image: 'https://placehold.co/600x400.png',
     dataAiHint: 'modern sedan',
     price: 856,
@@ -20,10 +20,21 @@ export const vehicles: Vehicle[] = [
     seats: 5,
     rating: 4.7,
     reviews: 142,
-    useCases: 'เหมาะสำหรับการขับขี่ในเมืองและการเดินทางธุรกิจ ประหยัดน้ำมันเป็นเลิศ',
+    useCases: 'Perfect for city driving and business trips with great fuel economy.',
   },
   {
-    name: 'Toyota Yaris Ativ',
+    name: 'New Yaris Sport',
+    image: 'https://placehold.co/600x400.png',
+    dataAiHint: 'red hatchback',
+    price: 749,
+    type: 'Hatchback',
+    seats: 5,
+    rating: 4.5,
+    reviews: 110,
+    useCases: 'A sporty and agile choice for navigating town and short trips.',
+  },
+  {
+    name: 'New Yaris Ativ',
     image: 'https://placehold.co/600x400.png',
     dataAiHint: 'white sedan',
     price: 749,
@@ -31,10 +42,10 @@ export const vehicles: Vehicle[] = [
     seats: 5,
     rating: 4.6,
     reviews: 130,
-    useCases: 'รถซีดานที่เชื่อถือได้และสะดวกสบายสำหรับครอบครัวและการเดินทางไกล',
+    useCases: 'Reliable and comfortable sedan for families and long drives.',
   },
   {
-    name: 'Nissan Almera',
+    name: 'Nissan Almera Sportech',
     image: 'https://placehold.co/600x400.png',
     dataAiHint: 'black sedan sport',
     price: 749,
@@ -42,18 +53,18 @@ export const vehicles: Vehicle[] = [
     seats: 5,
     rating: 4.4,
     reviews: 95,
-    useCases: 'ซีดานที่มีสไตล์พร้อมความสปอร์ต เหมาะสำหรับการสร้างความประทับใจ',
+    useCases: 'Stylish sedan with a sporty edge, ideal for making an impression.',
   },
   {
-    name: 'Suzuki Swift',
+    name: 'Suzuki CIAZ',
     image: 'https://placehold.co/600x400.png',
-    dataAiHint: 'red hatchback',
+    dataAiHint: 'grey sedan',
     price: 642,
-    type: 'Hatchback',
+    type: 'Sedan',
     seats: 5,
     rating: 4.3,
     reviews: 88,
-    useCases: 'ตัวเลือกที่ประหยัดและคล่องตัวสำหรับการเดินทางในเมือง',
+    useCases: 'An economical and spacious option for budget-conscious travelers.',
   },
   {
     name: 'Ford Ranger Raptor',
@@ -64,18 +75,18 @@ export const vehicles: Vehicle[] = [
     seats: 5,
     rating: 4.9,
     reviews: 210,
-    useCases: 'สำหรับนักผจญภัยที่ต้องการสำรวจเส้นทางออฟโรด',
+    useCases: 'For the ultimate adventure seeker looking to explore off-road terrains.',
   },
   {
-    name: 'ISUZU D-MAX CAB',
+    name: 'Toyota Vigo Champ',
     image: 'https://placehold.co/600x400.png',
     dataAiHint: 'silver truck pickup',
     price: 856,
     type: 'Truck',
-    seats: 4,
+    seats: 5,
     rating: 4.6,
     reviews: 180,
-    useCases: 'รถกระบะที่แข็งแกร่งและเชื่อถือได้สำหรับงานบรรทุกหนักและการสำรวจชนบท',
+    useCases: 'A robust and dependable truck for heavy loads and rural exploration.',
   },
   {
     name: 'Toyota Veloz',
@@ -86,7 +97,7 @@ export const vehicles: Vehicle[] = [
     seats: 7,
     rating: 4.7,
     reviews: 155,
-    useCases: 'SUV 7 ที่นั่งที่ทันสมัย เหมาะสำหรับครอบครัวใหญ่และการเดินทางเป็นกลุ่ม',
+    useCases: 'A modern 7-seater SUV perfect for larger families and group travels.',
   },
   {
     name: 'Pajero Sport Elite edition',
@@ -97,18 +108,29 @@ export const vehicles: Vehicle[] = [
     seats: 7,
     rating: 4.8,
     reviews: 195,
-    useCases: 'การผสมผสานระหว่างความหรูหราและสมรรถนะเพื่อประสบการณ์การเดินทางระดับพรีเมียม',
+    useCases: 'Luxury and performance combined for a premium travel experience.',
   },
   {
-    name: 'Mitsubishi Xpander Cross',
+    name: 'Mitsubishi Cross',
     image: 'https://placehold.co/600x400.png',
     dataAiHint: 'orange suv compact',
     price: 1284,
     type: 'SUV',
+    seats: 5,
+    rating: 4.5,
+    reviews: 115,
+    useCases: 'A versatile and stylish compact SUV for both city and country roads.',
+  },
+  {
+    name: 'Mitsubishi Xpander',
+    image: 'https://placehold.co/600x400.png',
+    dataAiHint: 'silver mpv',
+    price: 1284,
+    type: 'MPV',
     seats: 7,
     rating: 4.6,
     reviews: 140,
-    useCases: 'SUV สไตล์ MPV ที่กว้างขวางและยืดหยุ่นสำหรับครอบครัวพร้อมสัมภาระมากมาย',
+    useCases: 'Spacious and flexible MPV-style SUV for family trips with ample luggage.',
   },
   {
     name: 'Isuzu MU-X',
@@ -119,6 +141,6 @@ export const vehicles: Vehicle[] = [
     seats: 7,
     rating: 4.7,
     reviews: 170,
-    useCases: 'SUV ที่แข็งแกร่งและมีความสามารถ ออกแบบมาเพื่อความสะดวกสบายในการเดินทางไกล',
+    useCases: 'A rugged and capable SUV designed for comfort on long journeys.',
   },
 ];
