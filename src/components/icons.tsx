@@ -1,30 +1,14 @@
-import type { SVGProps } from "react";
+import Image from 'next/image';
 
-export function LogoIcon(props: SVGProps<SVGSVGElement>) {
+export function LogoIcon(props: { className?: string }) {
   return (
-    <svg
-      viewBox="0 0 100 100"
-      xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
-      <path
-        d="M 95,50 A 45,45 0 1 1 95,49.9"
-        className="stroke-primary"
-        strokeWidth="8"
-        fill="none"
-        strokeLinecap="round"
-      />
-      <circle cx="50" cy="50" r="38" className="fill-foreground" />
-      <text
-        x="50"
-        y="57"
-        fontFamily="cursive"
-        fontSize="50"
-        textAnchor="middle"
-        className="fill-primary font-bold"
-      >
-        R
-      </text>
-    </svg>
+    <Image
+      src="https://raster.app/uglogcfw1stdna/images?image=n1XG70x1T5Q"
+      alt="Rungroj Carrent Logo"
+      width={1080}
+      height={1080}
+      className={props.className}
+      data-ai-hint="logo"
+    />
   );
 }
