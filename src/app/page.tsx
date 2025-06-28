@@ -1,12 +1,17 @@
+
+'use client';
+
 import Image from "next/image";
+import * as React from "react";
 import { Car, Sparkles, Star, Users, Award, Flame, Truck, MapPin } from "lucide-react";
-import { vehicles } from "@/lib/data";
+import { type Vehicle, vehicles } from "@/lib/data";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { RecommendationForm } from "@/components/recommendation-form";
 import { LogoIcon } from "@/components/icons";
+import { BookingForm } from "@/components/booking-form";
 
 function Header() {
   return (
@@ -65,7 +70,7 @@ function Footer() {
   );
 }
 
-function VehicleCard({ vehicle }: { vehicle: (typeof vehicles)[0] }) {
+function VehicleCard({ vehicle, onBookNow }: { vehicle: Vehicle, onBookNow: () => void }) {
   return (
     <Card className="flex flex-col overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 group rounded-lg">
       <CardHeader className="p-0">
@@ -100,7 +105,7 @@ function VehicleCard({ vehicle }: { vehicle: (typeof vehicles)[0] }) {
           <span className="text-2xl font-bold">฿{vehicle.price.toLocaleString()}</span>
           <span className="text-sm text-muted-foreground">/วัน</span>
         </div>
-        <Button>เช่าเลย</Button>
+        <Button onClick={onBookNow}>เช่าเลย</Button>
       </CardFooter>
     </Card>
   );
@@ -120,6 +125,8 @@ function FeatureCard({ icon, title, description }: { icon: React.ReactNode, titl
 
 
 export default function Home() {
+  const [bookingVehicle, setBookingVehicle] = React.useState<Vehicle | null>(null);
+
   return (
     <div className="flex flex-col min-h-dvh bg-background">
       <Header />
@@ -154,7 +161,7 @@ export default function Home() {
             <div className="grid md:grid-cols-2 gap-12 items-center">
               <div className="rounded-lg overflow-hidden shadow-lg">
                 <Image 
-                  src="https://placehold.co/800x600.png" 
+                  src="https://placehold.co/800x600.png"
                   alt="Rungroj Carrent Office" 
                   width={800} 
                   height={600}
@@ -228,13 +235,20 @@ export default function Home() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {vehicles.map((vehicle) => (
-                <VehicleCard key={vehicle.name} vehicle={vehicle} />
+                <VehicleCard key={vehicle.name} vehicle={vehicle} onBookNow={() => setBookingVehicle(vehicle)} />
               ))}
             </div>
           </div>
         </section>
       </main>
       <Footer />
+      <BookingForm 
+        vehicle={bookingVehicle} 
+        isOpen={!!bookingVehicle} 
+        onClose={() => setBookingVehicle(null)} 
+      />
     </div>
   );
 }
+
+    
