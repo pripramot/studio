@@ -12,64 +12,8 @@ import { Separator } from "@/components/ui/separator";
 import { RecommendationForm } from "@/components/recommendation-form";
 import { LogoIcon } from "@/components/icons";
 import { BookingForm } from "@/components/booking-form";
-import { useAuth } from '@/hooks/use-auth';
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 
 function Header() {
-  const { user, signInWithGoogle, logout, loading, isFirebaseConfigured } = useAuth();
-
-  const renderAuthButton = () => {
-    if (!isFirebaseConfigured) {
-      return (
-        <div className="text-xs text-destructive bg-destructive/20 p-2 rounded-md">
-          Firebase ไม่ได้ถูกตั้งค่า
-        </div>
-      );
-    }
-
-    if (loading) {
-      return <div className="w-24 h-10 bg-muted/50 rounded-md animate-pulse" />;
-    }
-
-    if (user) {
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="relative h-10 w-10 rounded-full">
-              <Avatar className="h-10 w-10">
-                <AvatarImage src={user.photoURL ?? ''} alt={user.displayName ?? 'User'} />
-                <AvatarFallback>{user.displayName?.charAt(0).toUpperCase()}</AvatarFallback>
-              </Avatar>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-56" align="end" forceMount>
-            <DropdownMenuLabel className="font-normal">
-              <div className="flex flex-col space-y-1">
-                <p className="text-sm font-medium leading-none">{user.displayName}</p>
-                <p className="text-xs leading-none text-muted-foreground">
-                  {user.email}
-                </p>
-              </div>
-            </DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={logout}>
-              ออกจากระบบ
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
-    }
-    return <Button onClick={signInWithGoogle}>ลงชื่อเข้าใช้</Button>;
-  };
-
   return (
     <header className="py-4 px-4 md:px-8 border-b border-border/40 bg-background/95 backdrop-blur-sm sticky top-0 z-40">
       <div className="container mx-auto flex items-center justify-between">
@@ -77,7 +21,6 @@ function Header() {
           <LogoIcon className="h-8 w-8" />
           <h1 className="text-2xl font-bold text-foreground font-headline">Rungroj Carrent</h1>
         </a>
-        {renderAuthButton()}
       </div>
     </header>
   );
