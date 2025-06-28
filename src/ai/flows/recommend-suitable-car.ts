@@ -47,6 +47,7 @@ export async function recommendSuitableCar(
 
 const prompt = ai.definePrompt({
   name: 'recommendSuitableCarPrompt',
+  model: 'googleai/gemini-1.5-flash-latest',
   input: {schema: RecommendSuitableCarInputSchema},
   output: {schema: RecommendSuitableCarOutputSchema},
   prompt: `จากวัตถุประสงค์การใช้งาน: {{{intendedUse}}}, ความต้องการพิเศษ: {{{preferences}}}, และระยะทาง: {{{distance}}} กิโลเมตร, โปรดแนะนำรถที่เหมาะสมที่สุดจากตัวเลือกต่อไปนี้:
