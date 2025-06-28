@@ -20,7 +20,7 @@ export const vehicles: Vehicle[] = [
     seats: 5,
     rating: 4.7,
     reviews: 142,
-    useCases: 'Perfect for city driving and business trips with great fuel economy.',
+    useCases: 'เหมาะสำหรับการขับขี่ในเมืองและการเดินทางเพื่อธุรกิจ ประหยัดน้ำมันเยี่ยม',
   },
   {
     name: 'New Yaris Sport',
@@ -31,7 +31,7 @@ export const vehicles: Vehicle[] = [
     seats: 5,
     rating: 4.5,
     reviews: 110,
-    useCases: 'A sporty and agile choice for navigating town and short trips.',
+    useCases: 'ตัวเลือกที่สปอร์ตและคล่องตัวสำหรับการขับขี่ในเมืองและการเดินทางระยะสั้น',
   },
   {
     name: 'New Yaris Ativ',
@@ -42,7 +42,7 @@ export const vehicles: Vehicle[] = [
     seats: 5,
     rating: 4.6,
     reviews: 130,
-    useCases: 'Reliable and comfortable sedan for families and long drives.',
+    useCases: 'รถซีดานที่เชื่อถือได้และสะดวกสบายสำหรับครอบครัวและการเดินทางไกล',
   },
   {
     name: 'Nissan Almera Sportech',
@@ -53,7 +53,7 @@ export const vehicles: Vehicle[] = [
     seats: 5,
     rating: 4.4,
     reviews: 95,
-    useCases: 'Stylish sedan with a sporty edge, ideal for making an impression.',
+    useCases: 'ซีดานที่มีสไตล์พร้อมความสปอร์ต เหมาะสำหรับการสร้างความประทับใจ',
   },
   {
     name: 'Suzuki CIAZ',
@@ -64,7 +64,7 @@ export const vehicles: Vehicle[] = [
     seats: 5,
     rating: 4.3,
     reviews: 88,
-    useCases: 'An economical and spacious option for budget-conscious travelers.',
+    useCases: 'ตัวเลือกที่ประหยัดและกว้างขวางสำหรับนักเดินทางที่คำนึงถึงงบประมาณ',
   },
   {
     name: 'Ford Ranger Raptor',
@@ -75,7 +75,7 @@ export const vehicles: Vehicle[] = [
     seats: 5,
     rating: 4.9,
     reviews: 210,
-    useCases: 'For the ultimate adventure seeker looking to explore off-road terrains.',
+    useCases: 'สำหรับนักผจญภัยที่ต้องการสำรวจเส้นทางออฟโรด',
   },
   {
     name: 'Toyota Vigo Champ',
@@ -86,7 +86,7 @@ export const vehicles: Vehicle[] = [
     seats: 5,
     rating: 4.6,
     reviews: 180,
-    useCases: 'A robust and dependable truck for heavy loads and rural exploration.',
+    useCases: 'รถกระบะที่แข็งแกร่งและเชื่อถือได้สำหรับการบรรทุกของหนักและการสำรวจในชนบท',
   },
   {
     name: 'Toyota Veloz',
@@ -97,7 +97,7 @@ export const vehicles: Vehicle[] = [
     seats: 7,
     rating: 4.7,
     reviews: 155,
-    useCases: 'A modern 7-seater SUV perfect for larger families and group travels.',
+    useCases: 'SUV 7 ที่นั่งที่ทันสมัย เหมาะสำหรับครอบครัวขนาดใหญ่และการเดินทางเป็นกลุ่ม',
   },
   {
     name: 'Pajero Sport Elite edition',
@@ -108,7 +108,7 @@ export const vehicles: Vehicle[] = [
     seats: 7,
     rating: 4.8,
     reviews: 195,
-    useCases: 'Luxury and performance combined for a premium travel experience.',
+    useCases: 'ความหรูหราและสมรรถนะที่ผสมผสานกันเพื่อประสบการณ์การเดินทางระดับพรีเมียม',
   },
   {
     name: 'Mitsubishi Cross',
@@ -119,7 +119,7 @@ export const vehicles: Vehicle[] = [
     seats: 5,
     rating: 4.5,
     reviews: 115,
-    useCases: 'A versatile and stylish compact SUV for both city and country roads.',
+    useCases: 'SUV ขนาดกะทัดรัดอเนกประสงค์และมีสไตล์สำหรับถนนในเมืองและในชนบท',
   },
   {
     name: 'Mitsubishi Xpander',
@@ -130,7 +130,7 @@ export const vehicles: Vehicle[] = [
     seats: 7,
     rating: 4.6,
     reviews: 140,
-    useCases: 'Spacious and flexible MPV-style SUV for family trips with ample luggage.',
+    useCases: 'SUV สไตล์ MPV ที่กว้างขวางและยืดหยุ่นสำหรับการเดินทางกับครอบครัวพร้อมสัมภาระมากมาย',
   },
   {
     name: 'Isuzu MU-X',
@@ -141,6 +141,6 @@ export const vehicles: Vehicle[] = [
     seats: 7,
     rating: 4.7,
     reviews: 170,
-    useCases: 'A rugged and capable SUV designed for comfort on long journeys.',
+    useCases: 'SUV ที่แข็งแกร่งและมีความสามารถ ออกแบบมาเพื่อความสะดวกสบายในการเดินทางไกล',
   },
 ];

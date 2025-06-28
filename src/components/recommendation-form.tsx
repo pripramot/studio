@@ -17,9 +17,9 @@ import { useToast } from "@/hooks/use-toast";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const formSchema = z.object({
-  intendedUse: z.string().min(5, { message: "Please describe your travel purpose (at least 5 characters)" }),
-  preferences: z.string().min(5, { message: "Please state your requirements (at least 5 characters)" }),
-  distance: z.coerce.number().positive({ message: "Please enter a valid distance" }).max(10000, { message: "Distance must not exceed 10,000 km." }),
+  intendedUse: z.string().min(5, { message: "กรุณาอธิบายวัตถุประสงค์การเดินทางของคุณ (อย่างน้อย 5 ตัวอักษร)" }),
+  preferences: z.string().min(5, { message: "กรุณาระบุความต้องการของคุณ (อย่างน้อย 5 ตัวอักษร)" }),
+  distance: z.coerce.number().positive({ message: "กรุณาใส่ระยะทางที่ถูกต้อง" }).max(10000, { message: "ระยะทางต้องไม่เกิน 10,000 กม." }),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -47,7 +47,7 @@ export function RecommendationForm() {
       });
       if (error) {
         toast({
-          title: "An Error Occurred",
+          title: "เกิดข้อผิดพลาด",
           description: error,
           variant: "destructive",
         });
@@ -61,8 +61,8 @@ export function RecommendationForm() {
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start max-w-6xl mx-auto">
       <Card className="shadow-lg rounded-lg">
         <CardHeader>
-          <CardTitle className="font-headline text-2xl">Find Your Perfect Car</CardTitle>
-          <CardDescription>Fill out the form below to get a personalized recommendation.</CardDescription>
+          <CardTitle className="font-headline text-2xl">ค้นหารถที่ใช่สำหรับคุณ</CardTitle>
+          <CardDescription>กรอกแบบฟอร์มด้านล่างเพื่อรับคำแนะนำส่วนตัว</CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
@@ -72,11 +72,11 @@ export function RecommendationForm() {
                 name="intendedUse"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Intended Use</FormLabel>
+                    <FormLabel>วัตถุประสงค์การใช้งาน</FormLabel>
                     <FormControl>
-                      <Input placeholder="e.g., Family trip to Chiang Mai, business in Bangkok" {...field} />
+                      <Input placeholder="เช่น เดินทางกับครอบครัวไปเชียงใหม่, ติดต่อธุรกิจในกรุงเทพฯ" {...field} />
                     </FormControl>
-                    <FormDescription>What's the main purpose of your trip?</FormDescription>
+                    <FormDescription>จุดประสงค์หลักของการเดินทางของคุณคืออะไร?</FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -86,11 +86,11 @@ export function RecommendationForm() {
                 name="preferences"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Special Preferences</FormLabel>
+                    <FormLabel>ความต้องการพิเศษ</FormLabel>
                     <FormControl>
-                      <Textarea placeholder="e.g., 5 seats, large luggage space, fuel efficient" {...field} />
+                      <Textarea placeholder="เช่น 5 ที่นั่ง, พื้นที่เก็บสัมภาระขนาดใหญ่, ประหยัดน้ำมัน" {...field} />
                     </FormControl>
-                    <FormDescription>Any special requirements for the car?</FormDescription>
+                    <FormDescription>มีความต้องการพิเศษสำหรับรถหรือไม่?</FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -100,11 +100,11 @@ export function RecommendationForm() {
                 name="distance"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Estimated Distance (km)</FormLabel>
+                    <FormLabel>ระยะทางโดยประมาณ (กม.)</FormLabel>
                     <FormControl>
-                      <Input type="number" placeholder="e.g., 500" {...field} />
+                      <Input type="number" placeholder="เช่น 500" {...field} />
                     </FormControl>
-                    <FormDescription>How far do you plan to travel?</FormDescription>
+                    <FormDescription>คุณวางแผนจะเดินทางไกลแค่ไหน?</FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -113,9 +113,9 @@ export function RecommendationForm() {
                 {isPending ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Generating recommendation...
+                    กำลังสร้างคำแนะนำ...
                   </>
-                ) : "Get Recommendation"}
+                ) : "รับคำแนะนำ"}
               </Button>
             </form>
           </Form>
@@ -131,7 +131,7 @@ export function RecommendationForm() {
                 <div className="mx-auto bg-primary/10 text-primary p-3 rounded-full w-fit mb-4">
                   <ThumbsUp className="h-8 w-8" />
                 </div>
-                <CardTitle className="font-headline text-2xl">Our Recommendation</CardTitle>
+                <CardTitle className="font-headline text-2xl">คำแนะนำของเรา</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="bg-primary text-primary-foreground p-4 rounded-md">
@@ -146,7 +146,7 @@ export function RecommendationForm() {
           )}
            {!isPending && !result && (
             <div className="text-center text-muted-foreground p-8">
-              <p>Your personalized car recommendation will appear here.</p>
+              <p>คำแนะนำรถยนต์ส่วนตัวของคุณจะปรากฏที่นี่</p>
             </div>
           )}
         </Card>

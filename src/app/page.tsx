@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Car, Fuel, MapPin, Sparkles, Star, Users, Award, Flame, Truck } from "lucide-react";
+import { Car, Sparkles, Star, Users, Award, Flame, Truck, MapPin } from "lucide-react";
 import { vehicles } from "@/lib/data";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -16,7 +16,7 @@ function Header() {
           <LogoIcon className="h-8 w-8" />
           <h1 className="text-2xl font-bold text-foreground font-headline">Rungroj Carrent</h1>
         </a>
-        <Button>Sign In</Button>
+        <Button>ลงชื่อเข้าใช้</Button>
       </div>
     </header>
   );
@@ -33,32 +33,32 @@ function Footer() {
                <h3 className="text-xl font-bold text-foreground font-headline">Rungroj Carrent</h3>
             </div>
             <p className="text-sm">
-            Rungroj Carrent in Udon Thani offers self-drive car rentals with free Class 1 insurance. Trust us for a safe drive.
+            Rungroj Carrent รถเช่าอุดรธานี บริการให้เช่ารถยนต์ขับเอง ฟรีประกันภัยชั้น 1 ขับขี่ปลอดภัยไว้ใจเรา
             </p>
           </div>
           <div className="md:col-span-2 grid grid-cols-2 md:grid-cols-3 gap-8">
             <div>
-              <h4 className="font-semibold text-foreground mb-4">Services</h4>
+              <h4 className="font-semibold text-foreground mb-4">บริการ</h4>
               <ul className="space-y-2 text-sm">
-                <li><a href="#fleet" className="hover:text-primary transition-colors">Our Fleet</a></li>
-                <li><a href="#recommend" className="hover:text-primary transition-colors">AI Recommendation</a></li>
-                <li><a href="#" className="hover:text-primary transition-colors">Daily Rentals</a></li>
-                <li><a href="#" className="hover:text-primary transition-colors">Monthly Rentals</a></li>
+                <li><a href="#fleet" className="hover:text-primary transition-colors">รถของเรา</a></li>
+                <li><a href="#recommend" className="hover:text-primary transition-colors">แนะนำโดย AI</a></li>
+                <li><a href="#" className="hover:text-primary transition-colors">เช่ารายวัน</a></li>
+                <li><a href="#" className="hover:text-primary transition-colors">เช่ารายเดือน</a></li>
               </ul>
             </div>
              <div>
-              <h4 className="font-semibold text-foreground mb-4">About</h4>
+              <h4 className="font-semibold text-foreground mb-4">เกี่ยวกับเรา</h4>
               <ul className="space-y-2 text-sm">
-                <li><a href="#" className="hover:text-primary transition-colors">About Us</a></li>
-                <li><a href="#" className="hover:text-primary transition-colors">Contact Us</a></li>
-                <li><a href="#" className="hover:text-primary transition-colors">Terms of Service</a></li>
+                <li><a href="#" className="hover:text-primary transition-colors">เกี่ยวกับเรา</a></li>
+                <li><a href="#" className="hover:text-primary transition-colors">ติดต่อเรา</a></li>
+                <li><a href="#" className="hover:text-primary transition-colors">ข้อตกลงในการใช้บริการ</a></li>
               </ul>
             </div>
           </div>
         </div>
         <Separator className="my-8 bg-border/40" />
         <div className="text-center text-sm">
-          <p>&copy; {new Date().getFullYear()} Rungroj Carrent. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Rungroj Carrent. สงวนลิขสิทธิ์</p>
         </div>
       </div>
     </footer>
@@ -84,23 +84,23 @@ function VehicleCard({ vehicle }: { vehicle: (typeof vehicles)[0] }) {
         <CardDescription className="mb-4 text-sm">{vehicle.useCases}</CardDescription>
         <div className="flex-1" />
         <div className="grid grid-cols-2 gap-4 text-sm text-muted-foreground my-4">
-          <div className="flex items-center gap-2"><Users className="h-4 w-4 text-primary" />{vehicle.seats} Seats</div>
+          <div className="flex items-center gap-2"><Users className="h-4 w-4 text-primary" />{vehicle.seats} ที่นั่ง</div>
           <div className="flex items-center gap-2"><Car className="h-4 w-4 text-primary" />{vehicle.type}</div>
         </div>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1">
             <Star className="w-5 h-5 text-accent fill-accent" />
             <span className="font-bold">{vehicle.rating.toFixed(1)}</span>
-            <span className="text-sm text-muted-foreground">({vehicle.reviews} reviews)</span>
+            <span className="text-sm text-muted-foreground">({vehicle.reviews} รีวิว)</span>
           </div>
         </div>
       </CardContent>
       <CardFooter className="bg-muted/50 p-4 flex items-center justify-between">
         <div>
           <span className="text-2xl font-bold">฿{vehicle.price.toLocaleString()}</span>
-          <span className="text-sm text-muted-foreground">/day</span>
+          <span className="text-sm text-muted-foreground">/วัน</span>
         </div>
-        <Button>Rent Now</Button>
+        <Button>เช่าเลย</Button>
       </CardFooter>
     </Card>
   );
@@ -136,13 +136,13 @@ export default function Home() {
             <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent" />
           </div>
           <div className="container mx-auto px-4 relative z-10 text-center">
-            <h2 className="text-4xl md:text-6xl font-bold font-headline mb-4">Your Journey, Your Car</h2>
+            <h2 className="text-4xl md:text-6xl font-bold font-headline mb-4">การเดินทางของคุณ รถของคุณ</h2>
             <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
-            Discover Thailand with the perfect vehicle. From bustling city streets to serene beaches, we have a car for every adventure.
+            ค้นพบประเทศไทยด้วยยานพาหนะที่สมบูรณ์แบบ จากถนนในเมืองที่พลุกพล่านไปจนถึงชายหาดอันเงียบสงบ เรามีรถสำหรับทุกการผจญภัย
             </p>
             <div className="max-w-xl mx-auto bg-background/80 backdrop-blur-sm p-4 rounded-lg shadow-lg border">
               <div className="relative">
-                <Input type="text" placeholder="Search by city, landmark, or destination..." className="w-full pl-10 h-12 text-base" />
+                <Input type="text" placeholder="ค้นหาตามเมือง, สถานที่สำคัญ, หรือปลายทาง..." className="w-full pl-10 h-12 text-base" />
                 <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
               </div>
             </div>
@@ -163,12 +163,12 @@ export default function Home() {
                 />
               </div>
               <div>
-                <h2 className="text-3xl md:text-4xl font-bold font-headline mb-4">RungRoj Car Rental Udon Thani</h2>
+                <h2 className="text-3xl md:text-4xl font-bold font-headline">RungRoj รถเช่าอุดรธานี</h2>
                 <p className="text-lg text-muted-foreground mb-4">
-                  With over 40 vehicles to choose from, Rungroj Karnchamnan Ltd., Part. provides top-tier car rental services at Udon Thani Airport.
+                  หจก.รุ่งโรจน์การชำนาญ มีรถให้เลือกกว่า 40 คัน ให้บริการรถเช่าคุณภาพเยี่ยมที่สนามบินอุดรธานี
                 </p>
                 <p className="text-muted-foreground">
-                  Enjoy free cancellations and self-drive rentals available daily, weekly, or monthly at affordable prices. Your perfect ride is just a click away.
+                  เพลิดเพลินกับการยกเลิกฟรีและการเช่ารถขับเองแบบรายวัน, รายสัปดาห์, หรือรายเดือนในราคาที่จับต้องได้ รถในฝันของคุณอยู่แค่ปลายนิ้ว
                 </p>
               </div>
             </div>
@@ -178,26 +178,26 @@ export default function Home() {
         <section className="py-16 md:py-24 bg-muted/50">
           <div className="container mx-auto px-4">
             <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold font-headline">Why Choose Us?</h2>
+              <h2 className="text-3xl md:text-4xl font-bold font-headline">ทำไมต้องเลือกเรา?</h2>
               <p className="text-lg text-muted-foreground mt-2 max-w-2xl mx-auto">
-                We provide a seamless, affordable, and reliable rental experience.
+                เรามอบประสบการณ์การเช่าที่ราบรื่น ราคาไม่แพง และเชื่อถือได้
               </p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <FeatureCard 
                 icon={<Truck className="h-8 w-8" />}
-                title="Free Car Delivery"
-                description="We offer free delivery within the Udon Thani area, including Nong Prachak Public Park, at no extra charge."
+                title="ส่งรถเช่าถึงบ้านฟรี"
+                description="เรามีบริการส่งฟรีในเขตอุดรธานี รวมถึงสวนสาธารณะหนองประจักษ์ โดยไม่มีค่าใช้จ่ายเพิ่มเติม"
               />
               <FeatureCard 
                 icon={<Award className="h-8 w-8" />}
-                title="Excellent Service"
-                description="Be confident in our top-quality vehicles and outstanding service. Start your smooth journey with us."
+                title="การให้บริการที่เป็นเลิศ"
+                description="มั่นใจได้ในคุณภาพรถและการบริการที่เป็นเลิศ เริ่มต้นการเดินทางที่ราบรื่นกับเรา"
               />
               <FeatureCard 
                 icon={<Flame className="h-8 w-8" />}
-                title="Super Hot Deals"
-                description="Rentals start at just ฿699/day. All cars include Class 1 insurance and are delivered personally by the owner."
+                title="โปรสุดปัง! ลดค่าเช่าถูกสุด"
+                description="เช่ารถเริ่มต้นราคาเพียง 699/วัน รถทุกคันมีประกันภัยชั้น 1 และเจ้าของร้านเป็นผู้ส่งมอบด้วยตนเอง"
               />
             </div>
           </div>
@@ -207,9 +207,9 @@ export default function Home() {
           <div className="container mx-auto px-4">
             <div className="text-center mb-12">
               <Sparkles className="h-10 w-10 mx-auto text-primary mb-4" />
-              <h2 className="text-3xl md:text-4xl font-bold font-headline">Let Our AI Find Your Perfect Car</h2>
+              <h2 className="text-3xl md:text-4xl font-bold font-headline">ให้ AI ของเราค้นหารถที่ใช่สำหรับคุณ</h2>
               <p className="text-lg text-muted-foreground mt-2 max-w-2xl mx-auto">
-                Answer a few simple questions and our AI will recommend the ideal vehicle for your journey.
+                ตอบคำถามง่ายๆ ไม่กี่ข้อ แล้ว AI ของเราจะแนะนำรถที่เหมาะกับการเดินทางของคุณ
               </p>
             </div>
             <RecommendationForm />
@@ -221,9 +221,9 @@ export default function Home() {
         <section id="fleet" className="py-16 md:py-24 bg-background">
           <div className="container mx-auto px-4">
             <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold font-headline">Our Fleet</h2>
+              <h2 className="text-3xl md:text-4xl font-bold font-headline">รถของเรา</h2>
               <p className="text-lg text-muted-foreground mt-2 max-w-2xl mx-auto">
-              A wide selection of vehicles to meet your needs in Thailand.
+              มีรถให้เลือกมากมาย ตอบโจทย์ทุกความต้องการของคุณในประเทศไทย
               </p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

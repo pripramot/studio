@@ -1,11 +1,10 @@
-// RecommendSuitableCar.ts
 'use server';
 /**
- * @fileOverview AI agent that recommends a suitable car based on user's intended use and preferences.
+ * @fileOverview เอเจนต์ AI ที่แนะนำรถยนต์ที่เหมาะสมตามวัตถุประสงค์การใช้งานและความชอบของผู้ใช้
  *
- * - recommendSuitableCar - A function that recommends a car based on user preferences.
- * - RecommendSuitableCarInput - The input type for the recommendSuitableCar function.
- * - RecommendSuitableCarOutput - The return type for the recommendSuitableCar function.
+ * - recommendSuitableCar - ฟังก์ชันที่จัดการกระบวนการแนะนำรถยนต์
+ * - RecommendSuitableCarInput - ประเภทข้อมูลอินพุตสำหรับฟังก์ชัน recommendSuitableCar
+ * - RecommendSuitableCarOutput - ประเภทข้อมูลผลลัพธ์สำหรับฟังก์ชัน recommendSuitableCar
  */
 
 import {ai} from '@/ai/genkit';
@@ -15,27 +14,27 @@ const RecommendSuitableCarInputSchema = z.object({
   intendedUse: z
     .string()
     .describe(
-      'The intended use for the vehicle, e.g., family trip, business travel, adventure, etc.'
+      'วัตถุประสงค์การใช้งานรถยนต์ เช่น เดินทางกับครอบครัว, ติดต่อธุรกิจ, การผจญภัย, ฯลฯ'
     ),
   preferences: z
     .string()
     .describe(
-      'Specific preferences or requirements, e.g., number of passengers, luggage space, safety features, budget, etc.'
+      'ความต้องการหรือข้อกำหนดเฉพาะ เช่น จำนวนผู้โดยสาร, พื้นที่เก็บสัมภาระ, คุณสมบัติด้านความปลอดภัย, งบประมาณ, ฯลฯ'
     ),
   distance: z
     .string()
     .describe(
-      'The distance to be traveled in kilometers.'
+      'ระยะทางที่จะเดินทางเป็นกิโลเมตร'
     ),
 });
 
 export type RecommendSuitableCarInput = z.infer<typeof RecommendSuitableCarInputSchema>;
 
 const RecommendSuitableCarOutputSchema = z.object({
-  carRecommendation: z.string().describe('The recommended car model.'),
+  carRecommendation: z.string().describe('รุ่นรถที่แนะนำ'),
   suitabilityExplanation: z
     .string()
-    .describe('Explanation of why the recommended car is suitable.'),
+    .describe('คำอธิบายว่าทำไมรถที่แนะนำจึงเหมาะสม'),
 });
 
 export type RecommendSuitableCarOutput = z.infer<typeof RecommendSuitableCarOutputSchema>;
@@ -50,7 +49,7 @@ const prompt = ai.definePrompt({
   name: 'recommendSuitableCarPrompt',
   input: {schema: RecommendSuitableCarInputSchema},
   output: {schema: RecommendSuitableCarOutputSchema},
-  prompt: `Based on the intended use: {{{intendedUse}}}, special preferences: {{{preferences}}}, and distance: {{{distance}}} kilometers, please recommend the most suitable car from the following options:
+  prompt: `จากวัตถุประสงค์การใช้งาน: {{{intendedUse}}}, ความต้องการพิเศษ: {{{preferences}}}, และระยะทาง: {{{distance}}} กิโลเมตร, โปรดแนะนำรถที่เหมาะสมที่สุดจากตัวเลือกต่อไปนี้:
 
 Honda City Turbo
 New Yaris Sport
@@ -65,7 +64,7 @@ Mitsubishi Cross
 Mitsubishi Xpander
 Isuzu MU-X
 
-Please explain why the recommended car is the most suitable choice. Respond in English and provide concise information.
+กรุณาอธิบายว่าทำไมรถที่แนะนำจึงเป็นตัวเลือกที่เหมาะสมที่สุด โปรดตอบเป็นภาษาไทย และให้ข้อมูลที่กระชับ
 `,
 });
 
