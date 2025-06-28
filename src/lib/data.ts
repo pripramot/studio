@@ -68,8 +68,8 @@ export const vehicles: Vehicle[] = [
   },
   {
     name: 'Ford Ranger Raptor',
-    image: 'https://placehold.co/600x400.png',
-    dataAiHint: 'blue truck offroad',
+    image: 'https://firebasestudio-hosting.web.app/projects/p-289d0c/images/6b048596-f947-4f62-ac4d-2a8da427ca90',
+    dataAiHint: 'black truck offroad',
     price: 1800,
     type: 'Truck',
     seats: 5,
