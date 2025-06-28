@@ -24,13 +24,7 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'raster.app',
-        port: '',
-        pathname: '/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'rstr.in',
+        hostname: 'i.raster.app',
         port: '',
         pathname: '/**',
       },

@@ -13,7 +13,7 @@ export type Vehicle = {
 export const vehicles: Vehicle[] = [
   {
     name: 'Honda City Turbo',
-    image: 'https://raster.app/uglogcfw1stdna/all?image=Ybw9M0jB6HB',
+    image: 'https://i.raster.app/uglogcfw1stdna/all/Ybw9M0jB6HB.png',
     dataAiHint: 'modern sedan',
     price: 856,
     type: 'Sedan',
@@ -24,7 +24,7 @@ export const vehicles: Vehicle[] = [
   },
   {
     name: 'New Yaris Sport',
-    image: 'https://raster.app/uglogcfw1stdna/all?image=YXva2eyzLqU',
+    image: 'https://i.raster.app/uglogcfw1stdna/all/YXva2eyzLqU.png',
     dataAiHint: 'red hatchback',
     price: 749,
     type: 'Hatchback',
@@ -35,7 +35,7 @@ export const vehicles: Vehicle[] = [
   },
   {
     name: 'New Yaris Ativ',
-    image: 'https://raster.app/uglogcfw1stdna/all?image=tpeFn4IEYZT',
+    image: 'https://i.raster.app/uglogcfw1stdna/all/tpeFn4IEYZT.png',
     dataAiHint: 'white sedan',
     price: 749,
     type: 'Sedan',
@@ -46,7 +46,7 @@ export const vehicles: Vehicle[] = [
   },
   {
     name: 'Nissan Almera Sportech',
-    image: 'https://raster.app/uglogcfw1stdna/images?image=tcvPFbS8yHE',
+    image: 'https://i.raster.app/uglogcfw1stdna/images/tcvPFbS8yHE.png',
     dataAiHint: 'black sedan sport',
     price: 749,
     type: 'Sedan',
@@ -57,7 +57,7 @@ export const vehicles: Vehicle[] = [
   },
   {
     name: 'Suzuki CIAZ',
-    image: 'https://raster.app/uglogcfw1stdna/all?image=1u_sMtTyYlM',
+    image: 'https://i.raster.app/uglogcfw1stdna/all/1u_sMtTyYlM.png',
     dataAiHint: 'grey sedan',
     price: 642,
     type: 'Sedan',
@@ -68,7 +68,7 @@ export const vehicles: Vehicle[] = [
   },
   {
     name: 'Ford Ranger Raptor',
-    image: 'https://rstr.in/uglogcfw1stdna/all/dMSlXNxgJPR',
+    image: 'https://i.raster.app/uglogcfw1stdna/all/dMSlXNxgJPR.png',
     dataAiHint: 'black truck offroad',
     price: 1800,
     type: 'Truck',
@@ -79,7 +79,7 @@ export const vehicles: Vehicle[] = [
   },
   {
     name: 'Toyota Vigo Champ',
-    image: 'https://raster.app/uglogcfw1stdna/images?image=tcvPFbS8yHE',
+    image: 'https://i.raster.app/uglogcfw1stdna/images/tcvPFbS8yHE.png',
     dataAiHint: 'silver truck pickup',
     price: 856,
     type: 'Truck',
@@ -90,7 +90,7 @@ export const vehicles: Vehicle[] = [
   },
   {
     name: 'Toyota Veloz',
-    image: 'https://raster.app/uglogcfw1stdna/images?image=tcvPFbS8yHE',
+    image: 'https://i.raster.app/uglogcfw1stdna/images/tcvPFbS8yHE.png',
     dataAiHint: 'maroon suv family',
     price: 1070,
     type: 'SUV',
@@ -101,7 +101,7 @@ export const vehicles: Vehicle[] = [
   },
   {
     name: 'Pajero Sport Elite edition',
-    image: 'https://raster.app/uglogcfw1stdna/all?image=z6UQkpekF1U',
+    image: 'https://i.raster.app/uglogcfw1stdna/all/z6UQkpekF1U.png',
     dataAiHint: 'white suv luxury',
     price: 1498,
     type: 'SUV',
@@ -112,7 +112,7 @@ export const vehicles: Vehicle[] = [
   },
   {
     name: 'Mitsubishi Cross',
-    image: 'https://raster.app/uglogcfw1stdna/all?image=is70j05JTtK',
+    image: 'https://i.raster.app/uglogcfw1stdna/all/is70j05JTtK.png',
     dataAiHint: 'orange suv compact',
     price: 1284,
     type: 'SUV',
@@ -123,7 +123,7 @@ export const vehicles: Vehicle[] = [
   },
   {
     name: 'Mitsubishi Xpander',
-    image: 'https://raster.app/uglogcfw1stdna/all?image=YXerbey643W',
+    image: 'https://i.raster.app/uglogcfw1stdna/all/YXerbey643W.png',
     dataAiHint: 'silver mpv',
     price: 1284,
     type: 'MPV',
@@ -134,7 +134,7 @@ export const vehicles: Vehicle[] = [
   },
   {
     name: 'Isuzu MU-X',
-    image: 'https://raster.app/uglogcfw1stdna/images?image=tcvPFbS8yHE',
+    image: 'https://i.raster.app/uglogcfw1stdna/images/tcvPFbS8yHE.png',
     dataAiHint: 'black suv rugged',
     price: 1498,
     type: 'SUV',
