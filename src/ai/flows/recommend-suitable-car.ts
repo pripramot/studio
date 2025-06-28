@@ -50,23 +50,20 @@ const prompt = ai.definePrompt({
   name: 'recommendSuitableCarPrompt',
   input: {schema: RecommendSuitableCarInputSchema},
   output: {schema: RecommendSuitableCarOutputSchema},
-  prompt: `Based on the intended use: {{{intendedUse}}}, preferences: {{{preferences}}}, and the distance: {{{distance}}} kilometers, recommend the most suitable car from the following options:
+  prompt: `จากวัตถุประสงค์การใช้งาน: {{{intendedUse}}}, ความต้องการพิเศษ: {{{preferences}}}, และระยะทาง: {{{distance}}} กิโลเมตร, โปรดแนะนำรถที่เหมาะสมที่สุดจากตัวเลือกต่อไปนี้:
 
-  Honda City Turbo
-  New Yaris Sport
-  New Yaris Ativ
-  Nissan Almera Sportech
-  Suzuki CIAZ
-  Ford Ranger Raptor
-  Toyota Vigo Champ
-  Toyota Veloz
-  Pajero Sport Elite edition
-  Mitsubishi Cross
-  Mitsubishi Xpander
-  Isuzu MU-X
+Honda City
+Toyota Yaris Ativ
+Nissan Almera
+Suzuki Swift
+Ford Ranger Raptor
+ISUZU D-MAX CAB
+Toyota Veloz
+Pajero Sport Elite Edition
+Mitsubishi Xpander Cross
+Isuzu MU-X
 
-  Explain why the car is the most suitable option.
-  Make your response concise and tailored to the Thai market.
+โปรดอธิบายว่าทำไมรถที่แนะนำจึงเป็นตัวเลือกที่เหมาะสมที่สุด ตอบกลับเป็นภาษาไทยและให้ข้อมูลกระชับ เหมาะสมกับตลาดในประเทศไทย
 `,
 });
 
