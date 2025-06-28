@@ -129,8 +129,8 @@ export default function Home() {
     <div className="flex flex-col min-h-dvh bg-background">
       <Header />
       <main className="flex-1">
-        <section className="relative py-20 md:py-32 bg-card">
-          <div className="absolute inset-0">
+        <section id="recommend" className="relative py-20 md:py-32">
+           <div className="absolute inset-0">
             <Image
               src="https://placehold.co/1920x1080.png"
               alt="Beautiful landscape in Thailand"
@@ -140,16 +140,7 @@ export default function Home() {
             />
             <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent" />
           </div>
-          <div className="container mx-auto px-4 relative z-10 text-center">
-            <h2 className="text-4xl md:text-6xl font-bold font-headline mb-4">การเดินทางของคุณ รถของคุณ</h2>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
-            ค้นพบประเทศไทยด้วยยานพาหนะที่สมบูรณ์แบบ จากถนนในเมืองที่พลุกพล่านไปจนถึงชายหาดอันเงียบสงบ เรามีรถสำหรับทุกการผจญภัย
-            </p>
-          </div>
-        </section>
-        
-        <section id="recommend" className="py-16 md:py-24 bg-background">
-          <div className="container mx-auto px-4">
+          <div className="container mx-auto px-4 relative z-10">
             <div className="text-center mb-12">
               <Sparkles className="h-10 w-10 mx-auto text-primary mb-4" />
               <h2 className="text-3xl md:text-4xl font-bold font-headline">ให้ AI ของเราค้นหารถที่ใช่สำหรับคุณ</h2>
