@@ -1,6 +1,6 @@
 'use server';
 /**
- * @fileOverview เอเจนต์ AI ที่แนะนำรถยนต์ที่เหมาะสมตามวัตถุประสงค์การใช้งานและความชอบของผู้ใช้
+ * @fileOverview เอเจนต์ AI ที่แนะนำรถยนต์ที่เหมาะสมตามวัตถุประสงค์การใช้งานของผู้ใช้
  *
  * - recommendSuitableCar - ฟังก์ชันที่จัดการกระบวนการแนะนำรถยนต์
  * - RecommendSuitableCarInput - ประเภทข้อมูลอินพุตสำหรับฟังก์ชัน recommendSuitableCar
@@ -11,20 +11,10 @@ import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
 const RecommendSuitableCarInputSchema = z.object({
-  intendedUse: z
+  purpose: z
     .string()
     .describe(
-      'วัตถุประสงค์การใช้งานรถยนต์ เช่น เดินทางกับครอบครัว, ติดต่อธุรกิจ, การผจญภัย, ฯลฯ'
-    ),
-  preferences: z
-    .string()
-    .describe(
-      'คุณสมบัติของรถที่เลือกโดยผู้ใช้ เช่น ประหยัดน้ำมัน, รถครอบครัว (5-7 ที่นั่ง), เหมาะกับการผจญภัย/ออฟโรด, ฯลฯ'
-    ),
-  distance: z
-    .string()
-    .describe(
-      'ระยะทางที่จะเดินทางเป็นกิโลเมตร'
+      'วัตถุประสงค์หลักในการเช่ารถของผู้ใช้'
     ),
 });
 
@@ -47,10 +37,9 @@ export async function recommendSuitableCar(
 
 const prompt = ai.definePrompt({
   name: 'recommendSuitableCarPrompt',
-  model: 'googleai/gemini-1.5-flash-latest',
   input: {schema: RecommendSuitableCarInputSchema},
   output: {schema: RecommendSuitableCarOutputSchema},
-  prompt: `จากวัตถุประสงค์การใช้งาน: {{{intendedUse}}}, ความต้องการพิเศษ: {{{preferences}}}, และระยะทาง: {{{distance}}} กิโลเมตร, โปรดแนะนำรถที่เหมาะสมที่สุดจากตัวเลือกต่อไปนี้:
+  prompt: `จากวัตถุประสงค์การใช้งาน: {{{purpose}}}, โปรดแนะนำรถที่เหมาะสมที่สุดจากตัวเลือกต่อไปนี้:
 
 Honda City Turbo
 New Yaris Sport
