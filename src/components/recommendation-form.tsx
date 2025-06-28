@@ -9,16 +9,27 @@ import { Loader2, Car, ThumbsUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { getRecommendation } from "@/app/actions";
 import type { RecommendSuitableCarOutput } from "@/ai/flows/recommend-suitable-car";
 import { useToast } from "@/hooks/use-toast";
 import { Skeleton } from "@/components/ui/skeleton";
 
+const preferenceItems = [
+  { id: 'ประหยัดน้ำมัน', label: 'ประหยัดน้ำมัน' },
+  { id: 'รถครอบครัว (5-7 ที่นั่ง)', label: 'รถครอบครัว (5-7 ที่นั่ง)' },
+  { id: 'เหมาะกับการผจญภัย/ออฟโรด', label: 'เหมาะกับการผจญภัย/ออฟโรด' },
+  { id: 'ขับขี่ในเมืองคล่องตัว', label: 'ขับขี่ในเมืองคล่องตัว' },
+  { id: 'รถหรู / ติดต่อธุรกิจ', label: 'รถหรู / ติดต่อธุรกิจ' },
+  { id: 'สำหรับบรรทุกของ', label: 'สำหรับบรรทุกของ' },
+];
+
 const formSchema = z.object({
   intendedUse: z.string().min(5, { message: "กรุณาอธิบายวัตถุประสงค์การเดินทางของคุณ (อย่างน้อย 5 ตัวอักษร)" }),
-  preferences: z.string().min(5, { message: "กรุณาระบุความต้องการของคุณ (อย่างน้อย 5 ตัวอักษร)" }),
+  preferences: z.array(z.string()).refine((value) => value.length > 0, {
+    message: "กรุณาเลือกความต้องการพิเศษอย่างน้อย 1 รายการ",
+  }),
   distance: z.coerce.number().positive({ message: "กรุณาใส่ระยะทางที่ถูกต้อง" }).max(10000, { message: "ระยะทางต้องไม่เกิน 10,000 กม." }),
 });
 
@@ -33,7 +44,7 @@ export function RecommendationForm() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       intendedUse: "",
-      preferences: "",
+      preferences: [],
       distance: 100,
     },
   });
@@ -42,7 +53,8 @@ export function RecommendationForm() {
     setResult(null);
     startTransition(async () => {
       const { data, error } = await getRecommendation({
-        ...values,
+        intendedUse: values.intendedUse,
+        preferences: values.preferences.join(", "),
         distance: values.distance.toString(),
       });
       if (error) {
@@ -84,13 +96,49 @@ export function RecommendationForm() {
               <FormField
                 control={form.control}
                 name="preferences"
-                render={({ field }) => (
+                render={() => (
                   <FormItem>
-                    <FormLabel>ความต้องการพิเศษ</FormLabel>
-                    <FormControl>
-                      <Textarea placeholder="เช่น 5 ที่นั่ง, พื้นที่เก็บสัมภาระขนาดใหญ่, ประหยัดน้ำมัน" {...field} />
-                    </FormControl>
-                    <FormDescription>มีความต้องการพิเศษสำหรับรถหรือไม่?</FormDescription>
+                    <div className="mb-4">
+                      <FormLabel>ความต้องการพิเศษ</FormLabel>
+                      <FormDescription>
+                        เลือกคุณสมบัติของรถที่ตรงกับความต้องการของคุณมากที่สุด
+                      </FormDescription>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      {preferenceItems.map((item) => (
+                        <FormField
+                          key={item.id}
+                          control={form.control}
+                          name="preferences"
+                          render={({ field }) => {
+                            return (
+                              <FormItem
+                                key={item.id}
+                                className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4"
+                              >
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value?.includes(item.id)}
+                                    onCheckedChange={(checked) => {
+                                      return checked
+                                        ? field.onChange([...field.value, item.id])
+                                        : field.onChange(
+                                            field.value?.filter(
+                                              (value) => value !== item.id
+                                            )
+                                          );
+                                    }}
+                                  />
+                                </FormControl>
+                                <FormLabel className="font-normal">
+                                  {item.label}
+                                </FormLabel>
+                              </FormItem>
+                            );
+                          }}
+                        />
+                      ))}
+                    </div>
                     <FormMessage />
                   </FormItem>
                 )}
