@@ -44,7 +44,7 @@ function Footer() {
               <h4 className="font-semibold text-foreground mb-4">บริการ</h4>
               <ul className="space-y-2 text-sm">
                 <li><a href="#fleet" className="hover:text-primary transition-colors">รถของเรา</a></li>
-                <li><a href="#ai-chat" className="hover:text-primary transition-colors">AI ช่วยเหลือ</a></li>
+                <li><a href="#ai-recommend" className="hover:text-primary transition-colors">AI แนะนำรถ</a></li>
                 <li><a href="#" className="hover:text-primary transition-colors">เช่ารายวัน</a></li>
                 <li><a href="#" className="hover:text-primary transition-colors">เช่ารายเดือน</a></li>
               </ul>
@@ -129,7 +129,7 @@ export default function Home() {
     <div className="flex flex-col min-h-dvh bg-background">
       <Header />
       <main className="flex-1">
-        <section id="ai-chat" className="relative py-20 md:py-32">
+        <section id="ai-recommend" className="relative py-20 md:py-32">
            <div className="absolute inset-0">
             <Image
               src="https://images.unsplash.com/photo-1504215680853-026ed2a45def?q=80&w=2070&auto=format&fit=crop"
@@ -141,13 +141,6 @@ export default function Home() {
             <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent" />
           </div>
           <div className="container mx-auto px-4 relative z-10">
-            <div className="text-center mb-12">
-              <Bot className="h-10 w-10 mx-auto text-primary mb-4" />
-              <h2 className="text-3xl md:text-4xl font-bold font-headline">ให้ AI ช่วยเหลือคุณ</h2>
-              <p className="text-lg text-muted-foreground mt-2 max-w-2xl mx-auto">
-                มีคำถามเกี่ยวกับการเช่ารถ? "รุ่งโรจน์ AI" พร้อมให้ความช่วยเหลือ 24 ชั่วโมง
-              </p>
-            </div>
             <RecommendationForm />
           </div>
         </section>

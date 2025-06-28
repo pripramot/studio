@@ -1,129 +1,136 @@
 "use client";
 
 import * as React from "react";
-import { SendHorizonal, Bot, User, Loader2 } from "lucide-react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { Bot, Sparkles, Loader2, Search, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { getAnswer } from "@/app/actions";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { getRecommendation } from "@/app/actions";
 import { useToast } from "@/hooks/use-toast";
-import { cn } from "@/lib/utils";
+import { type Vehicle, vehicles } from "@/lib/data";
 
-type Message = {
-  role: 'user' | 'model';
-  content: string;
-};
+const recommendationSchema = z.object({
+  purpose: z.string({
+    required_error: "กรุณาเลือกวัตถุประสงค์การใช้งาน",
+  }),
+});
+
+type RecommendationFormValues = z.infer<typeof recommendationSchema>;
 
 export function RecommendationForm() {
-  const [messages, setMessages] = React.useState<Message[]>([]);
-  const [input, setInput] = React.useState("");
   const [isPending, startTransition] = React.useTransition();
+  const [recommendation, setRecommendation] = React.useState<{text: string, carName: string} | null>(null);
+  const [error, setError] = React.useState<string | null>(null);
   const { toast } = useToast();
-  const scrollAreaRef = React.useRef<HTMLDivElement>(null);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!input.trim() || isPending) return;
+  const form = useForm<RecommendationFormValues>({
+    resolver: zodResolver(recommendationSchema),
+  });
 
-    const userMessage: Message = { role: 'user', content: input };
-    setMessages(prev => [...prev, userMessage]);
-    
+  const handleSubmit = (values: RecommendationFormValues) => {
+    setRecommendation(null);
+    setError(null);
     startTransition(async () => {
-      const currentInput = input;
-      setInput(""); // Clear input immediately for better UX
-      
-      const { data, error } = await getAnswer({
-        question: currentInput,
-        chatHistory: messages,
-      });
-      
+      const { data, error } = await getRecommendation(values);
       if (error) {
+        setError(error);
         toast({
           title: "เกิดข้อผิดพลาด",
           description: error,
           variant: "destructive",
         });
-        const errorMessage: Message = { role: 'model', content: "ขออภัยค่ะ เกิดข้อผิดพลาดบางอย่าง โปรดลองอีกครั้ง" };
-        setMessages(prev => [...prev, errorMessage]);
-        return;
-      }
-
-      if (data) {
-        const aiMessage: Message = { role: 'model', content: data.answer };
-        setMessages(prev => [...prev, aiMessage]);
+      } else if (data) {
+        setRecommendation({ text: data.recommendation, carName: data.recommendedCar });
       }
     });
   };
   
-  React.useEffect(() => {
-    if (scrollAreaRef.current) {
-        const scrollableNode = scrollAreaRef.current.querySelector('[data-radix-scroll-area-viewport]');
-        if (scrollableNode) {
-          scrollableNode.scrollTo({
-            top: scrollableNode.scrollHeight,
-            behavior: 'smooth'
-          });
-        }
-    }
-  }, [messages]);
+  const recommendedVehicle = vehicles.find(v => v.name === recommendation?.carName);
 
   return (
-    <Card className="w-full max-w-2xl mx-auto shadow-2xl rounded-xl border-0">
-      <CardContent className="p-0">
-        <ScrollArea className="h-[450px] w-full p-4 bg-background rounded-t-xl border">
-          <div className="space-y-6" ref={scrollAreaRef}>
-            <div className="flex items-start gap-3">
-              <Avatar className="w-8 h-8 border">
-                <AvatarFallback><Bot size={20} /></AvatarFallback>
-              </Avatar>
-              <div className="rounded-lg px-4 py-2 max-w-[80%] whitespace-pre-wrap bg-muted">
-                สวัสดีค่ะ มีอะไรให้รุ่งโรจน์ AI ช่วยเหลือไหมคะ?
-              </div>
+    <Card className="w-full max-w-lg mx-auto shadow-2xl rounded-xl border-0">
+      <CardHeader className="text-center">
+        <Bot className="h-10 w-10 mx-auto text-primary" />
+        <CardTitle className="text-2xl font-headline">ไม่แน่ใจว่าจะเช่าคันไหนดี?</CardTitle>
+        <CardDescription>ให้ AI ช่วยแนะนำรถที่เหมาะกับคุณที่สุด</CardDescription>
+      </CardHeader>
+      <CardContent className="p-6">
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
+            <FormField
+              control={form.control}
+              name="purpose"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>วัตถุประสงค์หลักของคุณคืออะไร?</FormLabel>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="เลือกวัตถุประสงค์..." />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="ขับในเมืองเป็นหลัก เน้นประหยัดน้ำมัน">ขับในเมืองเป็นหลัก เน้นประหยัดน้ำมัน</SelectItem>
+                      <SelectItem value="เดินทางกับครอบครัว (3-5 คน)">เดินทางกับครอบครัว (3-5 คน)</SelectItem>
+                      <SelectItem value="เดินทางกับครอบครัวใหญ่ หรือเพื่อนกลุ่มใหญ่ (6-7 คน)">เดินทางกับครอบครัวใหญ่ หรือเพื่อนกลุ่มใหญ่ (6-7 คน)</SelectItem>
+                      <SelectItem value="เดินทางไกล ออกต่างจังหวัด">เดินทางไกล ออกต่างจังหวัด</SelectItem>
+                      <SelectItem value="ต้องการรถที่ดูดี มีสไตล์ สำหรับการทำงานหรือพบปะผู้คน">ต้องการรถที่ดูดี มีสไตล์</SelectItem>
+                      <SelectItem value="ลุยๆ ชอบผจญภัย ขับขี่แบบออฟโรด">ลุยๆ ชอบผจญภัย ออฟโรด</SelectItem>
+                       <SelectItem value="ขนของ หรือใช้งานเชิงพาณิชย์">ขนของ หรือใช้งานเชิงพาณิชย์</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button type="submit" disabled={isPending} className="w-full">
+              {isPending ? (
+                <Loader2 className="animate-spin" />
+              ) : (
+                <>
+                  <Search className="mr-2" />
+                  รับคำแนะนำ
+                </>
+              )}
+            </Button>
+          </form>
+        </Form>
+        {isPending && (
+            <div className="text-center mt-6">
+                <Loader2 className="h-8 w-8 animate-spin mx-auto text-primary" />
+                <p className="text-muted-foreground mt-2">กำลังค้นหารถที่ใช่สำหรับคุณ...</p>
             </div>
-            {messages.map((message, index) => (
-              <div key={index} className={cn('flex items-start gap-3', message.role === 'user' ? 'justify-end' : 'justify-start')}>
-                {message.role === 'model' && (
-                  <Avatar className="w-8 h-8 border">
-                    <AvatarFallback><Bot size={20} /></AvatarFallback>
-                  </Avatar>
-                )}
-                <div className={cn('rounded-lg px-4 py-2 max-w-[80%] whitespace-pre-wrap', message.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-muted')}>
-                  {message.content}
-                </div>
-                {message.role === 'user' && (
-                  <Avatar className="w-8 h-8 border">
-                    <AvatarFallback><User size={20} /></AvatarFallback>
-                  </Avatar>
-                )}
-              </div>
-            ))}
-            {isPending && (
-              <div className="flex items-start gap-3">
-                <Avatar className="w-8 h-8 border">
-                  <AvatarFallback><Bot size={20} /></AvatarFallback>
-                </Avatar>
-                <div className="rounded-lg px-4 py-2 bg-muted flex items-center">
-                  <Loader2 className="h-5 w-5 animate-spin"/>
-                </div>
-              </div>
-            )}
-          </div>
-        </ScrollArea>
-        <form onSubmit={handleSubmit} className="p-4 flex items-center gap-2 bg-muted/60 rounded-b-xl border border-t-0">
-          <Input
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            placeholder="พิมพ์คำถามของคุณที่นี่..."
-            disabled={isPending}
-            className="flex-1"
-            autoComplete="off"
-          />
-          <Button type="submit" disabled={isPending || !input.trim()} size="icon">
-            <SendHorizonal className="h-5 w-5" />
-          </Button>
-        </form>
+        )}
+        {error && (
+            <div className="mt-6 text-center text-destructive">
+                <p>{error}</p>
+            </div>
+        )}
+        {recommendation && recommendedVehicle && (
+            <div className="mt-8 pt-6 border-t">
+                <h3 className="text-lg font-semibold text-center mb-4">เราขอแนะนำ...</h3>
+                <Card className="overflow-hidden">
+                    <CardHeader className="p-4 bg-primary/10">
+                         <CardTitle className="font-headline text-xl text-primary">{recommendedVehicle.name}</CardTitle>
+                    </CardHeader>
+                    <CardContent className="p-4">
+                        <p className="text-base"><Sparkles className="inline-block w-4 h-4 mr-2 text-accent" />{recommendation.text}</p>
+                    </CardContent>
+                    <CardContent className="p-4 pt-0">
+                         <Button className="w-full" variant="outline" onClick={() => {
+                           const vehicleSection = document.getElementById('fleet');
+                           if(vehicleSection) vehicleSection.scrollIntoView({ behavior: 'smooth' });
+                         }}>
+                            ดูรถคันอื่นๆ <ArrowRight className="ml-2" />
+                         </Button>
+                    </CardContent>
+                </Card>
+            </div>
+        )}
       </CardContent>
     </Card>
   );

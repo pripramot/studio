@@ -1,67 +1,77 @@
 'use server';
 /**
- * @fileOverview A customer support AI agent for Rungroj Carrent.
+ * @fileOverview An AI agent for recommending a suitable car based on user's purpose.
  *
- * - answerQuestion - A function that handles answering customer questions.
- * - AnswerQuestionInput - The input type for the answerQuestion function.
- * - AnswerQuestionOutput - The return type for the answerQuestion function.
+ * - recommendCarByPurpose - A function that handles the car recommendation process.
+ * - RecommendCarInput - The input type for the function.
+ * - RecommendCarOutput - The return type for the function.
  */
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
+import { vehicles } from '@/lib/data';
 
-const AnswerQuestionInputSchema = z.object({
-  question: z.string().describe("The customer's question."),
-  chatHistory: z.array(z.object({
-    role: z.enum(['user', 'model']),
-    content: z.string(),
-  })).optional().describe('The history of the conversation.'),
+const RecommendCarInputSchema = z.object({
+  purpose: z.string().describe("The user's main purpose for renting a car."),
 });
-export type AnswerQuestionInput = z.infer<typeof AnswerQuestionInputSchema>;
+export type RecommendCarInput = z.infer<typeof RecommendCarInputSchema>;
 
-const AnswerQuestionOutputSchema = z.object({
-  answer: z.string().describe("The AI-generated answer to the customer's question."),
+const RecommendCarOutputSchema = z.object({
+  recommendation: z.string().describe("A brief, friendly recommendation in Thai, explaining why a specific car is suitable. Mention the car name clearly."),
+  recommendedCar: z.string().describe("The name of the recommended car, must match a name in the vehicle list."),
 });
-export type AnswerQuestionOutput = z.infer<typeof AnswerQuestionOutputSchema>;
+export type RecommendCarOutput = z.infer<typeof RecommendCarOutputSchema>;
 
-export async function answerQuestion(
-  input: AnswerQuestionInput
-): Promise<AnswerQuestionOutput> {
-  return customerSupportFlow(input);
+export async function recommendCarByPurpose(
+  input: RecommendCarInput
+): Promise<RecommendCarOutput> {
+  return recommendCarFlow(input);
 }
 
-const customerSupportFlow = ai.defineFlow(
+const recommendCarFlow = ai.defineFlow(
   {
-    name: 'customerSupportFlow',
-    inputSchema: AnswerQuestionInputSchema,
-    outputSchema: AnswerQuestionOutputSchema,
+    name: 'recommendCarFlow',
+    inputSchema: RecommendCarInputSchema,
+    outputSchema: RecommendCarOutputSchema,
   },
   async (input) => {
-    const systemPrompt = `คุณคือ "รุ่งโรจน์ AI" ผู้ช่วยแชทบอทของ "Rungroj Carrent" รถเช่าอุดรธานี
-หน้าที่ของคุณคือการตอบคำถามและให้ความช่วยเหลือลูกค้าด้วยความเป็นมิตรและเป็นประโยชน์ โปรดใช้ข้อมูลต่อไปนี้ในการตอบคำถาม:
+    const carList = vehicles.map(v => `- ${v.name}: ประเภท ${v.type}, ${v.seats} ที่นั่ง, เหมาะสำหรับ ${v.useCases}`).join('\n');
 
-**ข้อมูลสำคัญ:**
-- **เอกสารที่ต้องใช้:** สำหรับคนไทยใช้แค่ บัตรประชาชน และ ใบขับขี่
-- **ค่ามัดจำ:** 3,000 - 5,000 บาท ขึ้นอยู่กับรุ่นรถที่เช่า
-- **บริการพิเศษ:** เรามีบริการรับ-ส่งฟรีที่สนามบินอุดรธานี
-- **ประกันภัย:** รถทุกคันมีประกันภัยชั้น 1 ฟรี
-- **ประเภทเกียร์:** รถทุกคันเป็นเกียร์ออโต้เมติค
-- **จุดเด่นอื่นๆ:** เราส่งรถเช่าถึงบ้านฟรีในเขตอุดรธานี, เจ้าของร้านส่งมอบรถด้วยตนเอง
+    const prompt = `คุณเป็น AI ผู้เชี่ยวชาญด้านรถเช่าชื่อ "รุ่งโรจน์ AI"
+    หน้าที่ของคุณคือการแนะนำรถที่เหมาะสมที่สุด 1 คันจากรายการ ให้กับลูกค้าตามวัตถุประสงค์ที่พวกเขาเลือก
 
-**แนวทางการตอบ:**
-- ตอบเป็นภาษาไทยเสมอ
-- ใช้ภาษาที่สุภาพ เป็นมิตร และให้ความช่วยเหลือ
-- ตอบให้กระชับและตรงประเด็น
-- หากไม่ทราบคำตอบสำหรับคำถามใดๆ ให้ตอบอย่างสุภาพว่า "ขออภัยค่ะ เรื่องนี้เป็นข้อมูลที่ดิฉันยังไม่ทราบ รบกวนคุณลูกค้าติดต่อสอบถามโดยตรงกับพนักงานได้ที่เบอร์ XXX-XXX-XXXX หรือทาง Line ID: rungroj_carrent นะคะ"
-`;
+    **วัตถุประสงค์ของลูกค้า:**
+    "{{purpose}}"
+
+    **รายการรถทั้งหมดของเรา:**
+    ${carList}
+
+    **คำสั่ง:**
+    1.  วิเคราะห์วัตถุประสงค์ของลูกค้า
+    2.  เลือกรถที่เหมาะสมที่สุด **เพียง 1 คัน** จากรายการด้านบน
+    3.  สร้างคำแนะนำสั้นๆ ที่เป็นมิตร (ไม่เกิน 2-3 ประโยค) เป็นภาษาไทยเพื่ออธิบายว่าทำไมรถคันนี้ถึงเป็นตัวเลือกที่ดีที่สุด
+    4.  ในคำแนะนำต้องระบุชื่อรถยนต์ให้ชัดเจน
+    5.  ส่งคืนข้อมูลในรูปแบบ JSON ที่กำหนด โดยต้องมีฟิลด์ "recommendation" ที่เป็นคำแนะนำ และ "recommendedCar" ที่เป็นชื่อรถ (ต้องตรงกับชื่อในรายการเป๊ะๆ)
+
+    **ตัวอย่าง:**
+    - ถ้าลูกค้าเลือก "เดินทางกับครอบครัวใหญ่", คุณอาจจะแนะนำ "Toyota Veloz" หรือ "Pajero Sport Elite edition"
+    - ถ้าลูกค้าเลือก "ขับในเมือง ประหยัดน้ำมัน", คุณอาจจะแนะนำ "Honda City Turbo" หรือ "New Yaris Sport"
+
+    สำคัญมาก: ต้องแนะนำรถแค่คันเดียวเท่านั้น`;
     
-    const llmResponse = await ai.generate({
+    const { output } = await ai.generate({
         model: 'gemini-pro',
-        system: systemPrompt,
-        history: input.chatHistory || [],
-        prompt: input.question
+        prompt: prompt,
+        input: { purpose: input.purpose },
+        output: {
+            schema: RecommendCarOutputSchema,
+        }
     });
 
-    return { answer: llmResponse.text };
+    if (!output) {
+      throw new Error("AI failed to generate a recommendation.");
+    }
+
+    return output;
   }
 );

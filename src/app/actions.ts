@@ -1,14 +1,14 @@
 'use server';
 
-import { answerQuestion, AnswerQuestionInput, AnswerQuestionOutput } from '@/ai/flows/recommend-suitable-car';
+import { recommendCarByPurpose, RecommendCarInput, RecommendCarOutput } from '@/ai/flows/recommend-suitable-car';
 
-export async function getAnswer(input: AnswerQuestionInput): Promise<{ data: AnswerQuestionOutput | null; error: string | null }> {
+export async function getRecommendation(input: RecommendCarInput): Promise<{ data: RecommendCarOutput | null; error: string | null }> {
   try {
-    const result = await answerQuestion(input);
+    const result = await recommendCarByPurpose(input);
     return { data: result, error: null };
   } catch (e) {
     console.error(e);
     // Return a user-friendly error message
-    return { data: null, error: 'An unexpected error occurred while getting an answer. Please try again later.' };
+    return { data: null, error: 'An unexpected error occurred while getting a recommendation. Please try again later.' };
   }
 }
