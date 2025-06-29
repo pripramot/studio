@@ -28,6 +28,40 @@ export async function recommendCarByPurpose(
   return recommendCarFlow(input);
 }
 
+const carList = vehicles.map(v => `- ${v.name}: ประเภท ${v.type}, ${v.seats} ที่นั่ง, เหมาะสำหรับ ${v.useCases}`).join('\n');
+
+const recommendCarPrompt = ai.definePrompt({
+    name: 'recommendCarPrompt',
+    input: { schema: RecommendCarInputSchema },
+    output: { schema: RecommendCarOutputSchema },
+    model: 'googleai/gemini-pro',
+    config: {
+        temperature: 0.3,
+    },
+    prompt: `คุณเป็น AI ผู้เชี่ยวชาญด้านรถเช่าชื่อ "รุ่งโรจน์ AI"
+หน้าที่ของคุณคือการแนะนำรถที่เหมาะสมที่สุด 1 คันจากรายการ ให้กับลูกค้าตามวัตถุประสงค์ที่พวกเขาเลือก
+
+**วัตถุประสงค์ของลูกค้า:**
+"{{purpose}}"
+
+**รายการรถทั้งหมดของเรา:**
+${carList}
+
+**คำสั่ง:**
+1.  วิเคราะห์วัตถุประสงค์ของลูกค้า
+2.  เลือกรถที่เหมาะสมที่สุด **เพียง 1 คัน** จากรายการด้านบน
+3.  สร้างคำแนะนำสั้นๆ ที่เป็นมิตร (ไม่เกิน 2-3 ประโยค) เป็นภาษาไทยเพื่ออธิบายว่าทำไมรถคันนี้ถึงเป็นตัวเลือกที่ดีที่สุดสำหรับลูกค้า
+4.  ในคำแนะนำต้องระบุชื่อรถยนต์ให้ชัดเจน
+5.  ตรวจสอบให้แน่ใจว่าชื่อรถที่แนะนำตรงกับชื่อในรายการที่มีอยู่
+
+**ตัวอย่าง:**
+- ถ้าลูกค้าเลือก "เดินทางกับครอบครัวใหญ่", คุณอาจจะแนะนำ "Toyota Veloz" หรือ "Pajero Sport Elite edition"
+- ถ้าลูกค้าเลือก "ขับในเมือง ประหยัดน้ำมัน", คุณอาจจะแนะนำ "Honda City Turbo" หรือ "New Yaris Sport"
+
+สำคัญมาก: ต้องแนะนำรถแค่คันเดียวเท่านั้น`,
+});
+
+
 const recommendCarFlow = ai.defineFlow(
   {
     name: 'recommendCarFlow',
@@ -35,41 +69,8 @@ const recommendCarFlow = ai.defineFlow(
     outputSchema: RecommendCarOutputSchema,
   },
   async (input) => {
-    const carList = vehicles.map(v => `- ${v.name}: ประเภท ${v.type}, ${v.seats} ที่นั่ง, เหมาะสำหรับ ${v.useCases}`).join('\n');
-
-    const prompt = `คุณเป็น AI ผู้เชี่ยวชาญด้านรถเช่าชื่อ "รุ่งโรจน์ AI"
-    หน้าที่ของคุณคือการแนะนำรถที่เหมาะสมที่สุด 1 คันจากรายการ ให้กับลูกค้าตามวัตถุประสงค์ที่พวกเขาเลือก
-
-    **วัตถุประสงค์ของลูกค้า:**
-    "{{purpose}}"
-
-    **รายการรถทั้งหมดของเรา:**
-    ${carList}
-
-    **คำสั่ง:**
-    1.  วิเคราะห์วัตถุประสงค์ของลูกค้า
-    2.  เลือกรถที่เหมาะสมที่สุด **เพียง 1 คัน** จากรายการด้านบน
-    3.  สร้างคำแนะนำสั้นๆ ที่เป็นมิตร (ไม่เกิน 2-3 ประโยค) เป็นภาษาไทยเพื่ออธิบายว่าทำไมรถคันนี้ถึงเป็นตัวเลือกที่ดีที่สุดสำหรับลูกค้า
-    4.  ในคำแนะนำต้องระบุชื่อรถยนต์ให้ชัดเจน
-    5.  ตรวจสอบให้แน่ใจว่าชื่อรถที่แนะนำตรงกับชื่อในรายการที่มีอยู่
-
-    **ตัวอย่าง:**
-    - ถ้าลูกค้าเลือก "เดินทางกับครอบครัวใหญ่", คุณอาจจะแนะนำ "Toyota Veloz" หรือ "Pajero Sport Elite edition"
-    - ถ้าลูกค้าเลือก "ขับในเมือง ประหยัดน้ำมัน", คุณอาจจะแนะนำ "Honda City Turbo" หรือ "New Yaris Sport"
-
-    สำคัญมาก: ต้องแนะนำรถแค่คันเดียวเท่านั้น`;
     
-    const { output } = await ai.generate({
-        model: 'googleai/gemini-pro',
-        prompt: prompt,
-        input: { purpose: input.purpose },
-        output: {
-            schema: RecommendCarOutputSchema,
-        },
-        config: {
-          temperature: 0.3,
-        }
-    });
+    const { output } = await recommendCarPrompt(input);
 
     if (!output) {
       throw new Error("AI failed to generate a recommendation.");
