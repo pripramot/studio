@@ -28,7 +28,7 @@ export async function recommendCarByPurpose(
   return recommendCarFlow(input);
 }
 
-const carList = vehicles.map(v => `- ${v.name}: ประเภท ${v.type}, ${v.seats} ที่นั่ง, เหมาะสำหรับ ${v.useCases}`).join('\n');
+const carList = vehicles.map(v => `- ${v.name}: Type ${v.type}, ${v.seats} seats, Use cases: ${v.useCases}`).join('\n');
 
 const recommendCarPrompt = ai.definePrompt({
     name: 'recommendCarPrompt',
@@ -38,27 +38,27 @@ const recommendCarPrompt = ai.definePrompt({
     config: {
         temperature: 0.3,
     },
-    prompt: `คุณเป็น AI ผู้เชี่ยวชาญด้านรถเช่าชื่อ "รุ่งโรจน์ AI"
-หน้าที่ของคุณคือการแนะนำรถที่เหมาะสมที่สุด 1 คันจากรายการ ให้กับลูกค้าตามวัตถุประสงค์ที่พวกเขาเลือก
+    prompt: `You are an expert car rental AI assistant named "Rungroj AI".
+Your task is to recommend ONE most suitable car from a list to a customer based on their chosen purpose.
 
-**วัตถุประสงค์ของลูกค้า:**
+**Customer's Purpose:**
 "{{purpose}}"
 
-**รายการรถทั้งหมดของเรา:**
+**Full list of our cars:**
 ${carList}
 
-**คำสั่ง:**
-1.  วิเคราะห์วัตถุประสงค์ของลูกค้า
-2.  เลือกรถที่เหมาะสมที่สุด **เพียง 1 คัน** จากรายการด้านบน
-3.  สร้างคำแนะนำสั้นๆ ที่เป็นมิตร (ไม่เกิน 2-3 ประโยค) เป็นภาษาไทยเพื่ออธิบายว่าทำไมรถคันนี้ถึงเป็นตัวเลือกที่ดีที่สุดสำหรับลูกค้า
-4.  ในคำแนะนำต้องระบุชื่อรถยนต์ให้ชัดเจน
-5.  ตรวจสอบให้แน่ใจว่าชื่อรถที่แนะนำตรงกับชื่อในรายการที่มีอยู่
+**Instructions:**
+1.  Analyze the customer's purpose.
+2.  Choose only ONE most suitable car from the list above.
+3.  Generate a short, friendly recommendation (2-3 sentences max) in Thai, explaining why this car is the best choice.
+4.  The recommendation must clearly state the car's name.
+5.  Ensure the recommended car name in the 'recommendedCar' field matches a name from the provided list exactly.
 
-**ตัวอย่าง:**
-- ถ้าลูกค้าเลือก "เดินทางกับครอบครัวใหญ่", คุณอาจจะแนะนำ "Toyota Veloz" หรือ "Pajero Sport Elite edition"
-- ถ้าลูกค้าเลือก "ขับในเมือง ประหยัดน้ำมัน", คุณอาจจะแนะนำ "Honda City Turbo" หรือ "New Yaris Sport"
+**Example:**
+- If the customer chooses "Travel with a large family", you might recommend "Toyota Veloz" or "Pajero Sport Elite edition".
+- If the customer chooses "City driving, fuel-efficient", you might recommend "Honda City Turbo" or "New Yaris Sport".
 
-สำคัญมาก: ต้องแนะนำรถแค่คันเดียวเท่านั้น`,
+Crucially: You must recommend only one car. The language of the recommendation text must be in Thai.`,
 });
 
 
@@ -76,10 +76,12 @@ const recommendCarFlow = ai.defineFlow(
       throw new Error("AI failed to generate a recommendation.");
     }
     
+    // Final check to ensure the AI's recommendation is a car we actually have.
     const recommendedCarExists = vehicles.some(v => v.name === output.recommendedCar);
     if (!recommendedCarExists) {
         console.error(`AI recommended a car not in the list: ${output.recommendedCar}`);
-        throw new Error("AI recommended a car that is not available. Please try again.");
+        // This provides a more specific error than a generic failure.
+        throw new Error("The AI recommended a car that is not available in our fleet. Please try rephrasing your purpose.");
     }
 
     return output;
