@@ -3,12 +3,11 @@
 
 import Image from "next/image";
 import * as React from "react";
-import { Car, Star, Users, Award, Flame, Truck, Bot } from "lucide-react";
+import { Car, Star, Users, Award, Flame, Truck } from "lucide-react";
 import { type Vehicle, vehicles } from "@/lib/data";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { RecommendationForm } from "@/components/recommendation-form";
 import { LogoIcon } from "@/components/icons";
 import { BookingForm } from "@/components/booking-form";
 
@@ -44,7 +43,6 @@ function Footer() {
               <h4 className="font-semibold text-foreground mb-4">บริการ</h4>
               <ul className="space-y-2 text-sm">
                 <li><a href="#fleet" className="hover:text-primary transition-colors">รถของเรา</a></li>
-                <li><a href="#ai-recommend" className="hover:text-primary transition-colors">AI แนะนำรถ</a></li>
                 <li><a href="#" className="hover:text-primary transition-colors">เช่ารายวัน</a></li>
                 <li><a href="#" className="hover:text-primary transition-colors">เช่ารายเดือน</a></li>
               </ul>
@@ -129,7 +127,7 @@ export default function Home() {
     <div className="flex flex-col min-h-dvh bg-background">
       <Header />
       <main className="flex-1">
-        <section id="ai-recommend" className="relative py-20 md:py-32">
+        <section className="relative py-20 md:py-32">
            <div className="absolute inset-0">
             <Image
               src="https://images.unsplash.com/photo-1504215680853-026ed2a45def?q=80&w=2070&auto=format&fit=crop"
@@ -140,8 +138,16 @@ export default function Home() {
             />
             <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent" />
           </div>
-          <div className="container mx-auto px-4 relative z-10">
-            <RecommendationForm />
+          <div className="container mx-auto px-4 relative z-10 text-center">
+            <h1 className="text-4xl md:text-6xl font-bold font-headline text-foreground drop-shadow-lg">
+              ค้นหารถเช่าที่สมบูรณ์แบบของคุณ
+            </h1>
+            <p className="mt-4 text-lg md:text-xl text-foreground/80 max-w-2xl mx-auto drop-shadow-md">
+              บริการรถเช่าคุณภาพในอุดรธานี พร้อมรับและส่งฟรีถึงสนามบิน
+            </p>
+            <Button size="lg" className="mt-8" onClick={() => document.getElementById('fleet')?.scrollIntoView({ behavior: 'smooth' })}>
+              ดูรถทั้งหมด
+            </Button>
           </div>
         </section>
 
