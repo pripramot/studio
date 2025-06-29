@@ -49,9 +49,9 @@ const recommendCarFlow = ai.defineFlow(
     **คำสั่ง:**
     1.  วิเคราะห์วัตถุประสงค์ของลูกค้า
     2.  เลือกรถที่เหมาะสมที่สุด **เพียง 1 คัน** จากรายการด้านบน
-    3.  สร้างคำแนะนำสั้นๆ ที่เป็นมิตร (ไม่เกิน 2-3 ประโยค) เป็นภาษาไทยเพื่ออธิบายว่าทำไมรถคันนี้ถึงเป็นตัวเลือกที่ดีที่สุด
+    3.  สร้างคำแนะนำสั้นๆ ที่เป็นมิตร (ไม่เกิน 2-3 ประโยค) เป็นภาษาไทยเพื่ออธิบายว่าทำไมรถคันนี้ถึงเป็นตัวเลือกที่ดีที่สุดสำหรับลูกค้า
     4.  ในคำแนะนำต้องระบุชื่อรถยนต์ให้ชัดเจน
-    5.  ส่งคืนข้อมูลในรูปแบบ JSON ที่กำหนด โดยต้องมีฟิลด์ "recommendation" ที่เป็นคำแนะนำ และ "recommendedCar" ที่เป็นชื่อรถ (ต้องตรงกับชื่อในรายการเป๊ะๆ)
+    5.  ตรวจสอบให้แน่ใจว่าชื่อรถที่แนะนำตรงกับชื่อในรายการที่มีอยู่
 
     **ตัวอย่าง:**
     - ถ้าลูกค้าเลือก "เดินทางกับครอบครัวใหญ่", คุณอาจจะแนะนำ "Toyota Veloz" หรือ "Pajero Sport Elite edition"
@@ -60,16 +60,25 @@ const recommendCarFlow = ai.defineFlow(
     สำคัญมาก: ต้องแนะนำรถแค่คันเดียวเท่านั้น`;
     
     const { output } = await ai.generate({
-        model: 'gemini-pro',
+        model: 'googleai/gemini-pro',
         prompt: prompt,
         input: { purpose: input.purpose },
         output: {
             schema: RecommendCarOutputSchema,
+        },
+        config: {
+          temperature: 0.3,
         }
     });
 
     if (!output) {
       throw new Error("AI failed to generate a recommendation.");
+    }
+    
+    const recommendedCarExists = vehicles.some(v => v.name === output.recommendedCar);
+    if (!recommendedCarExists) {
+        console.error(`AI recommended a car not in the list: ${output.recommendedCar}`);
+        throw new Error("AI recommended a car that is not available. Please try again.");
     }
 
     return output;
