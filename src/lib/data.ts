@@ -13,7 +13,7 @@ export type Vehicle = {
 export const vehicles: Vehicle[] = [
   {
     name: 'Honda City Turbo',
-    image: 'https://placehold.co/600x400.png',
+    image: '/images/HondaCityTurbo-5.png',
     dataAiHint: 'Honda City',
     price: 856,
     type: 'Sedan',
@@ -24,7 +24,7 @@ export const vehicles: Vehicle[] = [
   },
   {
     name: 'New Yaris Sport',
-    image: 'https://placehold.co/600x400.png',
+    image: '/images/NewYarisSport-5.png',
     dataAiHint: 'Toyota Yaris',
     price: 749,
     type: 'Hatchback',
@@ -35,7 +35,7 @@ export const vehicles: Vehicle[] = [
   },
   {
     name: 'New Yaris Ativ',
-    image: 'https://placehold.co/600x400.png',
+    image: '/images/NewYarisAtiv-5.png',
     dataAiHint: 'Toyota Ativ',
     price: 749,
     type: 'Sedan',
@@ -46,7 +46,7 @@ export const vehicles: Vehicle[] = [
   },
   {
     name: 'Nissan Almera Sportech',
-    image: 'https://placehold.co/600x400.png',
+    image: '/images/NissanAlmeraSportech-5.png',
     dataAiHint: 'Nissan Almera',
     price: 749,
     type: 'Sedan',
@@ -57,7 +57,7 @@ export const vehicles: Vehicle[] = [
   },
   {
     name: 'Suzuki CIAZ',
-    image: 'https://placehold.co/600x400.png',
+    image: '/images/SuzukiCiaz-5.png',
     dataAiHint: 'Suzuki Ciaz',
     price: 642,
     type: 'Sedan',
@@ -68,7 +68,7 @@ export const vehicles: Vehicle[] = [
   },
   {
     name: 'Ford Ranger Raptor',
-    image: 'https://placehold.co/600x400.png',
+    image: '/images/FordRangerRaptor-2.png',
     dataAiHint: 'Ford Ranger',
     price: 1800,
     type: 'Truck',
@@ -79,7 +79,7 @@ export const vehicles: Vehicle[] = [
   },
   {
     name: 'Toyota Vigo Champ',
-    image: 'https://placehold.co/600x400.png',
+    image: '/images/ToyotaVigoChamp-2.png',
     dataAiHint: 'Toyota Vigo',
     price: 856,
     type: 'Truck',
@@ -90,7 +90,7 @@ export const vehicles: Vehicle[] = [
   },
   {
     name: 'Toyota Veloz',
-    image: 'https://placehold.co/600x400.png',
+    image: '/images/ToyotaVeloz-2.png',
     dataAiHint: 'Toyota Veloz',
     price: 1070,
     type: 'SUV',
@@ -101,7 +101,7 @@ export const vehicles: Vehicle[] = [
   },
   {
     name: 'Pajero Sport Elite edition',
-    image: 'https://placehold.co/600x400.png',
+    image: '/images/PajeroSportEliteEdition-2.png',
     dataAiHint: 'Pajero Sport',
     price: 1498,
     type: 'SUV',
@@ -112,7 +112,7 @@ export const vehicles: Vehicle[] = [
   },
   {
     name: 'Mitsubishi Cross',
-    image: 'https://placehold.co/600x400.png',
+    image: '/images/MitsubishiCross-5.png',
     dataAiHint: 'Mitsubishi Cross',
     price: 1284,
     type: 'SUV',
@@ -123,7 +123,7 @@ export const vehicles: Vehicle[] = [
   },
   {
     name: 'Mitsubishi Xpander',
-    image: 'https://placehold.co/600x400.png',
+    image: '/images/MitsubishiXpander-5.png',
     dataAiHint: 'Mitsubishi Xpander',
     price: 1284,
     type: 'MPV',
@@ -134,7 +134,7 @@ export const vehicles: Vehicle[] = [
   },
   {
     name: 'Isuzu MU-X',
-    image: 'https://placehold.co/600x400.png',
+    image: '/images/IsuzuMUX-1.png',
     dataAiHint: 'Isuzu MU-X',
     price: 1498,
     type: 'SUV',

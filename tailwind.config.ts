@@ -65,6 +65,9 @@ export default {
           border: 'hsl(var(--sidebar-border))',
           ring: 'hsl(var(--sidebar-ring))',
         },
+        primary: '#รหัสสีหลัก',      // ตัวอย่าง: '#1A237E'
+        secondary: '#รหัสสีรอง',    // ตัวอย่าง: '#FFC107'
+        accent: '#รหัสสีเสริม',     // ตัวอย่าง: '#00BFAE'
       },
       borderRadius: {
         lg: 'var(--radius)',

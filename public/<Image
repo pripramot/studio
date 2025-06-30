@@ -1,0 +1,9 @@
+<Image 
+  src="/main-image.png"
+  alt="Rungroj Carrent Office" 
+  width={960} 
+  height={960}
+  className="w-full h-auto max-w-full object-cover aspect-square sm:aspect-video"
+  priority
+  data-ai-hint="car rental office"
+/>

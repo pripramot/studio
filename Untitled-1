@@ -1,0 +1,206 @@
+import Image from "next/image";
+import GeminiLogo from "/public/gemini-logo.png"; // สมมุติว่าคุณมีโลโก้ Gemini ใน public
+
+function Header() {
+  return (
+    <header className="py-4 px-4 md:px-8 border-b border-border/40 bg-[#E5E4FB] sticky top-0 z-40">
+      <div className="container mx-auto flex items-center justify-between">
+        <a href="#" className="flex items-center gap-2" aria-label="Carrent Home">
+          <Image src={GeminiLogo} alt="Gemini Logo" width={40} height={40} className="rounded-full" />
+          <h1 className="text-2xl font-bold text-[#3C3C3C] font-headline">Carrent</h1>
+        </a>
+      </div>
+    </header>
+  );
+}
+
+function Footer() {
+  return (
+    <footer className="bg-[#E5E4FB] text-[#3C3C3C] mt-16">
+      <div className="container mx-auto py-12 px-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="md:col-span-1 flex flex-col gap-4">
+            <div className="flex items-center gap-2">
+              <Image src={GeminiLogo} alt="Gemini Logo" width={40} height={40} className="rounded-full" />
+              <h3 className="text-xl font-bold font-headline">Carrent</h3>
+            </div>
+            <div className="flex flex-wrap gap-3">
+              <a href="https://facebook.com/" target="_blank" rel="noopener noreferrer">
+                <img src="/images/facebook.png" alt="Facebook" className="w-7 h-7 aspect-square object-contain" />
+              </a>
+              <a href="https://youtube.com/" target="_blank" rel="noopener noreferrer">
+                <img src="/images/youtube-logo.png" alt="YouTube" className="w-7 h-7 aspect-square object-contain" />
+              </a>
+              <a href="https://line.me/" target="_blank" rel="noopener noreferrer">
+                <img src="/images/logo-line-chat.png" alt="Line" className="w-7 h-7 aspect-square object-contain" />
+              </a>
+              <a href="https://m.me/" target="_blank" rel="noopener noreferrer">
+                <img src="/images/facebook-chat-logo.png" alt="Facebook Chat" className="w-7 h-7 aspect-square object-contain" />
+              </a>
+            </div>
+            {/* เพิ่มข้อมูลอื่นๆ ได้ตามต้องการ */}
+          </div>
+          <div className="md:col-span-2 grid grid-cols-2 md:grid-cols-3 gap-8">
+            <div>
+              <h4 className="font-semibold mb-4">บริการ</h4>
+              <ul className="space-y-2 text-sm">
+                <li><a href="#fleet" className="hover:text-[#FF5CA7] transition-colors">รถของเรา</a></li>
+                <li><a href="#" className="hover:text-[#FF5CA7] transition-colors">เช่ารายวัน</a></li>
+                <li><a href="#" className="hover:text-[#FF5CA7] transition-colors">เช่ารายเดือน</a></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-4">เกี่ยวกับเรา</h4>
+              <ul className="space-y-2 text-sm">
+                <li><a href="#" className="hover:text-[#FF5CA7] transition-colors">เกี่ยวกับเรา</a></li>
+                <li><a href="#" className="hover:text-[#FF5CA7] transition-colors">ติดต่อเรา</a></li>
+                <li><a href="#" className="hover:text-[#FF5CA7] transition-colors">ข้อตกลงในการใช้บริการ</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div className="text-center text-sm mt-8">
+          <p>&copy; {new Date().getFullYear()} Carrent. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+function VehicleCard({ vehicle, onBookNow }: { vehicle: Vehicle, onBookNow: () => void }) {
+  return (
+    <Card className="flex flex-col h-full overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 group">
+      <div className="w-full bg-gray-100 flex justify-center items-center aspect-square max-w-[960px] mx-auto">
+        <Image
+          src={vehicle.image}
+          alt={vehicle.name}
+          width={960}
+          height={960}
+          className="object-cover w-full h-full"
+        />
+      </div>
+      <CardContent className="flex flex-col flex-1 p-6">
+        <CardTitle className="font-headline text-xl mb-2">{vehicle.name}</CardTitle>
+        <CardDescription className="mb-4 text-sm">{vehicle.useCases}</CardDescription>
+        <div className="flex-1" />
+        <div className="grid grid-cols-2 gap-4 text-sm text-muted-foreground my-4">
+          <div className="flex items-center gap-2"><Users className="h-4 w-4 text-[#FF5CA7]" />{vehicle.seats} ที่นั่ง</div>
+          <div className="flex items-center gap-2"><Car className="h-4 w-4 text-[#FF5CA7]" />{vehicle.type}</div>
+        </div>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-1">
+            <Star className="w-5 h-5 text-accent fill-accent" />
+            <span className="font-bold">{vehicle.rating.toFixed(1)}</span>
+            <span className="text-sm text-muted-foreground">({vehicle.reviews} รีวิว)</span>
+          </div>
+        </div>
+      </CardContent>
+      <CardFooter className="bg-muted/50 p-4 flex items-center justify-between">
+        <div>
+          <span className="text-2xl font-bold">฿{vehicle.price.toLocaleString()}</span>
+          <span className="text-sm text-muted-foreground">/วัน</span>
+        </div>
+        <Button onClick={onBookNow} className="bg-[#FF5CA7] hover:bg-pink-500 text-white">จองเลย</Button>
+      </CardFooter>
+    </Card>
+  );
+}
+
+// ...FeatureCard เหมือนเดิม...
+
+export default function Home() {
+  // ...state, function เหมือนเดิม...
+
+  return (
+    <div className="flex flex-col min-h-dvh bg-[#F6F5FF]">
+      <Header />
+      <main className="flex-1">
+        {/* ...sections... */}
+      </main>
+
+      <section className="py-16 md:py-24 bg-[#E5E4FB]">
+        {/* ...features... */}
+      </section>
+
+      <Footer />
+      <BookingForm 
+        vehicle={bookingVehicle} 
+        isOpen={!!bookingVehicle} 
+        onClose={() => setBookingVehicle(null)} 
+      />
+
+      {/* Floating Chat Button */}
+      <button
+        className="fixed bottom-6 right-6 z-50 bg-[#5F5CF6] hover:bg-[#FF5CA7] text-white rounded-full shadow-lg w-16 h-16 flex items-center justify-center text-3xl transition"
+        onClick={() => setOpen((v) => !v)}
+        aria-label="เปิดแชทผู้ช่วย AI"
+      >
+        <Image src={GeminiLogo} alt="Gemini" width={36} height={36} />
+      </button>
+
+      {/* Chat Widget */}
+      {open && (
+        <div className="fixed bottom-24 right-6 z-50 w-80 max-w-[95vw] bg-[#E5E4FB] rounded-xl shadow-2xl flex flex-col border border-[#5F5CF6]">
+          <div className="flex items-center justify-between px-4 py-3 border-b bg-[#5F5CF6] rounded-t-xl">
+            <span className="text-white font-bold flex items-center gap-2">
+              <Image src={GeminiLogo} alt="Gemini" width={24} height={24} /> Gemini Chat
+            </span>
+            <button className="text-white text-xl" onClick={() => setOpen(false)} aria-label="ปิดแชท">&times;</button>
+          </div>
+          <div className="flex-1 h-80 overflow-y-auto px-4 py-2" style={{ background: "#F6F5FF" }}>
+            {messages.length === 0 && (
+              <div className="text-gray-400 text-center mt-8">เริ่มต้นสนทนา หรือเลือกดูเอกสารฐานความรู้</div>
+            )}
+            {messages.map((msg, i) => (
+              <div key={i} className={`mb-2 ${msg.role === 'user' ? 'text-right' : 'text-left'}`}>
+                <span
+                  className={
+                    msg.role === 'user'
+                      ? 'inline-block bg-white text-black px-3 py-1 rounded-lg'
+                      : msg.role === 'assistant'
+                      ? 'inline-block bg-[#E5E4FB] text-black px-3 py-1 rounded-lg border border-[#5F5CF6]'
+                      : 'inline-block bg-gray-200 text-gray-700 px-3 py-1 rounded-lg'
+                  }
+                >
+                  {msg.content}
+                </span>
+              </div>
+            ))}
+            {loading && <div className="text-gray-400">AI กำลังพิมพ์...</div>}
+            <div ref={chatEndRef} />
+          </div>
+          <form onSubmit={sendMessage} className="flex gap-2 p-3 border-t bg-[#E5E4FB]">
+            <input
+              className="flex-1 border rounded px-3 py-2 text-black bg-white"
+              value={input}
+              onChange={e => setInput(e.target.value)}
+              placeholder="พิมพ์ข้อความ..."
+              disabled={loading}
+              autoFocus
+            />
+            <button className="bg-[#FF5CA7] text-white px-4 py-2 rounded" type="submit" disabled={loading}>
+              ส่ง
+            </button>
+          </form>
+          <div className="px-3 pb-3">
+            <label className="block text-xs text-gray-500 mb-1">ฐานความรู้ (Knowledge Base)</label>
+            <ul className="text-xs text-blue-700 underline space-y-1">
+              {/* ตัวอย่างลิงก์ไฟล์ PDF/JSON ใน knowledge-base */}
+              <li>
+                <a href="/knowledge-base/faq.pdf" target="_blank" rel="noopener noreferrer">
+                  FAQ ลูกค้า (PDF)
+                </a>
+              </li>
+              <li>
+                <a href="/knowledge-base/car-list.json" target="_blank" rel="noopener noreferrer">
+                  รายการรถ (JSON)
+                </a>
+              </li>
+              {/* เพิ่มไฟล์อื่นๆ ได้ */}
+            </ul>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}

@@ -1,0 +1,18 @@
+export default function Home() {
+  const [bookingVehicle, setBookingVehicle] = React.useState<Vehicle | null>(null);
+
+  return (
+    <div className="flex flex-col min-h-screen bg-background">
+      <Header />
+      <main className="flex-1">
+        {/* ...sections... */}
+      </main>
+      <Footer />
+      <BookingForm 
+        vehicle={bookingVehicle} 
+        isOpen={!!bookingVehicle} 
+        onClose={() => setBookingVehicle(null)} 
+      />
+    </div>
+  );
+}
